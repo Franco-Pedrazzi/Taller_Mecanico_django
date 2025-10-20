@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gestión de Repuestos</title>
+<style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    h1 { font-size: 24px; margin-bottom: 10px; }
+    form { display: none; border: 1px solid #ccc; border-radius: 10px; padding: 15px; margin: 10px 0; }
+    input, select { display: block; margin: 8px 0; padding: 6px; width: 100%; max-width: 300px; }
+    button { margin: 5px; padding: 6px 12px; }
+    table { border-collapse: collapse; width: 100%; margin-top: 10px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+    th { background-color: #eee; }
+    .acciones button { margin-right: 5px; }
+</style>
+</head>
+<body>
+
+<h1>Repuestos</h1>
+<button id="btnAgregar">Agregar Repuesto</button>
+
+<form id="formRepuesto">
+    <input type="hidden" id="modo" value="">
+    
+    <label>Nombre:</label>
+    <input type="text" id="nombre" required>
+    <label>Precio por unidad:</label>
+    <input type="text" id="precio" required>
+    <label>Cantidad:</label>
+    <input type="text" id="cantidad" required>
+    
+    <button type="submit" id="btnGuardar">Guardar</button>
+    <button type="button" id="btnCancelar">Cancelar</button>
+</form>
+
+<hr>
+
+<label for="filtro">Filtro:</label>
+<input type="text" id="filtro" placeholder="Buscar por nombre">
+<button id="btnFiltrar">🔍</button>
+
+<table id="tablaRepuestos">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<script>
+let repuestos = [
+    ["Filtro de aceite", 500, 10],
+    ["Pastillas de freno", 1200, 5],
+    ["Correa de distribución", 2000, 2]
+];
+
+let modoEdicion = false;
+let nombreEditar = "";
+
+const tablaBody = document.querySelector('#tablaRepuestos tbody');
+const form = document.getElementById('formRepuesto');
+
+function cargarTabla(datos = repuestos) {
+    tablaBody.innerHTML = '';
+    datos.forEach(r => {
+        const fila = document.createElement('tr');
+        fila.innerHTML = `
+            <td>${r[0]}</td>
+            <td>${r[1]}</td>
+            <td>${r[2]}</td>
+            <td class="acciones">
+                <button onclick="editarRepuesto('${r[0]}')">✏️</button>
+                <button onclick="eliminarRepuesto('${r[0]}')">🗑️</button>
+            </td>
+        `;
+        tablaBody.appendChild(fila);
+    });
+}
+
+function mostrarFormulario(repuesto = null) {
+    form.style.display = "block";
+    if (repuesto) {
+        modoEdicion = true;
+        nombreEditar = repuesto[0];
+        document.getElementById('nombre').value = repuesto[0];
+        document.getElementById('precio').value = repuesto[1];
+        document.getElementById('cantidad').value = repuesto[2];
+        document.getElementById('nombre').disabled = true;
+    } else {
+        modoEdicion = false;
+        nombreEditar = "";
+        form.reset();
+        document.getElementById('nombre').disabled = false;
+    }
+}
+
+function ocultarFormulario() {
+    form.style.display = "none";
+}
+
+function editarRepuesto(nombre) {
+    const repuesto = repuestos.find(r => r[0] === nombre);
+    mostrarFormulario(repuesto);
+}
+
+function eliminarRepuesto(nombre) {
+    repuestos = repuestos.filter(r => r[0] !== nombre);
+    cargarTabla();
+}
+
+document.getElementById('btnAgregar').onclick = () => mostrarFormulario();
+document.getElementById('btnCancelar').onclick = ocultarFormulario;
+
+document.getElementById('formRepuesto').addEventListener('submit', e => {
+    e.preventDefault();
+    const nombre = document.getElementById('nombre').value;
+    const precio = parseFloat(document.getElementById('precio').value);
+    const cantidad = parseInt(document.getElementById('cantidad').value);
+
+    if (modoEdicion) {
+        const r = repuestos.find(r => r[0] === nombreEditar);
+        r[1] = precio;
+        r[2] = cantidad;
+    } else {
+        repuestos.push([nombre, precio, cantidad]);
+    }
+
+    ocultarFormulario();
+    cargarTabla();
+});
+
+document.getElementById('btnFiltrar').onclick = () => {
+    const valor = document.getElementById('filtro').value.toLowerCase();
+    const filtrados = repuestos.filter(r => r[0].toLowerCase().includes(valor));
+    cargarTabla(filtrados);
+}
+
+cargarTabla();
+</script>
+
+</body>
+</html>

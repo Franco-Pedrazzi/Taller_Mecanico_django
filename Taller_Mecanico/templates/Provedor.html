@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gestión de Provedor</title>
+<style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    h1 { font-size: 24px; margin-bottom: 10px; }
+    form { display: none; border: 1px solid #ccc; border-radius: 10px; padding: 15px; margin: 10px 0; }
+    input, select { display: block; margin: 8px 0; padding: 6px; width: 100%; max-width: 300px; }
+    button { margin: 5px; padding: 6px 12px; }
+    table { border-collapse: collapse; width: 100%; margin-top: 10px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+    th { background-color: #eee; }
+    .acciones button { margin-right: 5px; }
+</style>
+</head>
+<body>
+
+<h1>Provedor</h1>
+<button id="btnAgregar">Agregar Provedor</button>
+
+<form id="formProvedor">
+    <input type="hidden" id="modo" value="">
+    <label>DNI:</label>
+    <input type="text" id="dni" required>
+    <label>Nombre:</label>
+    <input type="text" id="nombre" required>
+    <label>Apellido:</label>
+    <input type="text" id="apellido" required>
+    <label>Teléfono:</label>
+    <input type="text" id="telefono">
+    <label>Dirección:</label>
+    <input type="text" id="direccion">
+    <button type="submit" id="btnGuardar">Guardar</button>
+    <button type="button" id="btnCancelar">Cancelar</button>
+</form>
+
+<hr>
+
+<label for="filtro">Filtro:</label>
+<input type="text" id="filtro" placeholder="Buscar por nombre o DNI">
+<button id="btnFiltrar">🔍</button>
+
+<table id="tablaProvedor">
+    <thead>
+        <tr>
+            <th>DNI</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Teléfono</th>
+            <th>Dirección</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<script>
+    let provedores = [
+        ["12345678", "Juan", "Pérez", "1111-2222", "Av. Siempre Viva 742"],
+        ["87654321", "Ana", "López", "3333-4444", "Calle Falsa 123"]
+    ];
+    let modoEdicion = false;
+    let dniEditar = "";
+
+    const tablaBody = document.querySelector('#tablaProvedor tbody');
+    const form = document.getElementById('formProvedor');
+
+    function cargarTabla(datos = provedores) {
+        tablaBody.innerHTML = '';
+        datos.forEach(p => {
+            const fila = document.createElement('tr');
+            fila.innerHTML = `
+                <td>${p[0]}</td>
+                <td>${p[1]}</td>
+                <td>${p[2]}</td>
+                <td>${p[3]}</td>
+                <td>${p[4]}</td>
+                <td class="acciones">
+                    <button onclick="editarProvedor('${p[0]}')">✏️</button>
+                    <button onclick="eliminarProvedor('${p[0]}')">🗑️</button>
+                </td>
+            `;
+            tablaBody.appendChild(fila);
+        });
+    }
+
+    function mostrarFormulario(provedor = null) {
+        form.style.display = "block";
+        if (provedor) {
+            modoEdicion = true;
+            dniEditar = provedor[0];
+            document.getElementById('dni').value = provedor[0];
+            document.getElementById('nombre').value = provedor[1];
+            document.getElementById('apellido').value = provedor[2];
+            document.getElementById('telefono').value = provedor[3];
+            document.getElementById('direccion').value = provedor[4];
+            document.getElementById('dni').disabled = true;
+        } else {
+            modoEdicion = false;
+            dniEditar = "";
+            form.reset();
+            document.getElementById('dni').disabled = false;
+        }
+    }
+
+    function ocultarFormulario() {
+        form.style.display = "none";
+    }
+
+    function editarProvedor(dni) {
+        const provedor = provedores.find(p => p[0] === dni);
+        mostrarFormulario(provedor);
+    }
+
+    function eliminarProvedor(dni) {
+        provedores = provedores.filter(p => p[0] !== dni);
+        cargarTabla();
+    }
+
+    document.getElementById('btnAgregar').onclick = () => mostrarFormulario();
+    document.getElementById('btnCancelar').onclick = ocultarFormulario;
+
+    document.getElementById('formProvedor').addEventListener('submit', e => {
+        e.preventDefault();
+        const dni = document.getElementById('dni').value;
+        const nombre = document.getElementById('nombre').value;
+        const apellido = document.getElementById('apellido').value;
+        const telefono = document.getElementById('telefono').value;
+        const direccion = document.getElementById('direccion').value;
+
+        if (modoEdicion) {
+            const provedor = provedores.find(p => p[0] === dniEditar);
+            provedor[1] = nombre;
+            provedor[2] = apellido;
+            provedor[3] = telefono;
+            provedor[4] = direccion;
+        } else {
+            provedores.push([dni, nombre, apellido, telefono, direccion]);
+        }
+        ocultarFormulario();
+        cargarTabla();
+    });
+
+    document.getElementById('btnFiltrar').onclick = () => {
+        const valor = document.getElementById('filtro').value.toLowerCase();
+        const filtrados = provedores.filter(p => p[0].includes(valor) || p[1].toLowerCase().includes(valor) || p[2].toLowerCase().includes(valor));
+        cargarTabla(filtrados);
+    }
+
+    cargarTabla();
+</script>
+
+</body>
+</html>
