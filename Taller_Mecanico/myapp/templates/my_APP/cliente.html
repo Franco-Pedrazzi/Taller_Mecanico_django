@@ -1,0 +1,47 @@
+<h1>Cliente</h1>
+
+<button id="btnAgregar">Agregar Cliente</button>
+
+<form id="formCliente" method="POST" style="display: none;">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="hidden" id="modo" name="modo">
+    <button type="submit">Guardar</button>
+    <button type="button" id="cancelar">Cancelar</button>
+</form>
+
+<hr>
+
+<label for="filtro">Filtro:</label>
+<input type="text" id="filtro" placeholder="Buscar por nombre o DNI">
+<button id="btnFiltrar">🔍</button>
+
+<table id="tablaClientes">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>DNI</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Teléfono</th>
+            <th>Dirección</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for c in clientes %}
+        <tr>
+            <td>{{ c.id }}</td>
+            <td>{{ c.dni }}</td>
+            <td>{{ c.nombre }}</td>
+            <td>{{ c.apellido }}</td>
+            <td>{{ c.tel }}</td>
+            <td>{{ c.dir }}</td>
+            <td>
+                <button onclick="editarCliente({{ c.id }})">✏️</button>
+                <button onclick="eliminarCliente({{ c.id }})">🗑️</button>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

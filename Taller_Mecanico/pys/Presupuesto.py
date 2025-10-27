@@ -2,7 +2,7 @@ from django.http import HttpResponse
 
 def Herramienta_Presupuesto(request):
 
-    f = open("templates/Presupuesto.html", encoding="utf-8") 
+    f = open("my_APP/Presupuesto.html", encoding="utf-8") 
 
     response=HttpResponse (f.read()) 
     f.close() 

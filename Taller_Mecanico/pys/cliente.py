@@ -1,27 +1,40 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from wtforms import Form, StringField, PasswordField, validators
-
+from django.urls import reverse
+from myapp import forms
 from pys.classes import cliente
-class MyForm(Form):
-    dni = StringField('DNI', [validators.Length(min=1, max=10), validators.DataRequired()])
-    nombre = StringField('Nombre', [validators.Length(min=1, max=10), validators.DataRequired()])
-    apellido = StringField('Apellido', [validators.Length(min=1, max=10), validators.DataRequired()])
-    tel = StringField('Teléfono', [validators.Length(max=10)])
-    dir = StringField('Dirección', [validators.Length(max=25)])
-    
+
+lista_clientes = []
 
 def Herramienta_Cliente(request):
-    if request.method == 'POST':
-        form = MyForm(request.POST)
-        if form.is_valid():
-            cliente(dni, nombre, apellido, tel, dir)
-            dni = form.cleaned_data['dni']
-            nombre = form.cleaned_data['nombre']
-            apellido = form.cleaned_data['apellido']
-            tel = form.cleaned_data['tel']
-            dir = form.cleaned_data['dir']
-            return render(request, 'cliente.html', {'nombre': nombre})
-    else:
-        form = MyForm()
+    global lista_clientes
 
-    return render(request, 'cliente.html', {'form': form})
+    if request.method == "POST":
+        form = forms.FormularioPersona(request.POST)
+        if form.is_valid():
+            nuevo = cliente(
+                form.cleaned_data['dni'],
+                form.cleaned_data['nombre'],
+                form.cleaned_data['apellido'],
+                form.cleaned_data['tel'],
+                form.cleaned_data['dir']
+            )
+            lista_clientes.append(nuevo)
+            return HttpResponseRedirect(reverse('cliente'))  
+    else:
+        form = forms.FormularioPersona()
+
+
+    clientes = [
+        {
+            "id": i+1,
+            "dni": c.dni,
+            "nombre": c.nombre,
+            "apellido": c.apellido,
+            "tel": c.tel,
+            "dir": c.dir
+        }
+        for i, c in enumerate(lista_clientes)
+    ]
+
+    return render(request, 'my_APP/cliente.html', {'form': form, 'clientes': clientes})
