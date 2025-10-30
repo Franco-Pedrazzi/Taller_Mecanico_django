@@ -9,12 +9,12 @@ def conectar_bd():
     )
 
 class Persona:
-    def __init__(self, dni, nombre, apellido, tel, dir_):
+    def __init__(self, dni, nombre, apellido, tel, dir):
         self.dni = dni
         self.nombre = nombre
         self.apellido = apellido
         self.tel = tel
-        self.dir_ = dir_
+        self.dir = dir
 
     def insertar(self):
         conn = conectar_bd()
@@ -22,7 +22,7 @@ class Persona:
         try:
             cursor.execute(
                 "INSERT INTO Persona (dni, nombre, apellido, tel, dir) VALUES (%s, %s, %s, %s, %s)",
-                (self.dni, self.nombre, self.apellido, self.tel, self.dir_)
+                (self.dni, self.nombre, self.apellido, self.tel, self.dir)
             )
             conn.commit()
         except Exception as e:
@@ -33,6 +33,7 @@ class Persona:
 
     @staticmethod
     def eliminar_Personas(dni):
+        print(dni)
         conn = conectar_bd()
         cursor = conn.cursor()
         try:
@@ -45,7 +46,7 @@ class Persona:
             conn.close()
 
     @staticmethod
-    def actualizar_Personas(dni, nombre, apellido, tel, dir_):
+    def actualizar_Personas(dni, nombre, apellido, tel, dir):
         conn = conectar_bd()
         cursor = conn.cursor()
         try:
@@ -53,7 +54,7 @@ class Persona:
                 UPDATE Persona 
                 SET nombre=%s, apellido=%s, tel=%s, dir=%s 
                 WHERE dni=%s
-            """, (nombre, apellido, tel, dir_, dni))
+            """, (nombre, apellido, tel, dir, dni))
             conn.commit()
         except Exception as e:
             print("Error al actualizar Persona:", e)
@@ -62,8 +63,8 @@ class Persona:
             conn.close()
 
 class cliente(Persona):   
-    def __init__(self, dni, nombre, apellido, tel, dir_):
-        super().__init__(dni, nombre, apellido, tel, dir_)
+    def __init__(self, dni, nombre, apellido, tel, dir):
+        super().__init__(dni, nombre, apellido, tel, dir)
         self.insertar()
 
     def insertar(self):
@@ -104,8 +105,8 @@ class cliente(Persona):
         return resultados
 
 class Empleados(Persona):
-    def __init__(self, dni, nombre, apellido, tel, dir_):
-        super().__init__(dni, nombre, apellido, tel, dir_)
+    def __init__(self, dni, nombre, apellido, tel, dir):
+        super().__init__(dni, nombre, apellido, tel, dir)
         self.insertar()
 
     def insertar(self):
@@ -146,8 +147,8 @@ class Empleados(Persona):
         return resultados
 
 class Provedores(Persona):
-    def __init__(self, dni, nombre, apellido, tel, dir_):
-        super().__init__(dni, nombre, apellido, tel, dir_)
+    def __init__(self, dni, nombre, apellido, tel, dir):
+        super().__init__(dni, nombre, apellido, tel, dir)
         self.insertar()
 
     def insertar(self):

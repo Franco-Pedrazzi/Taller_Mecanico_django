@@ -1,10 +1,31 @@
-from django.http import HttpResponse 
+from django.http import HttpResponseRedirect
+from django.shortcuts import render,redirect
+from django.urls import reverse
+from myapp import forms
+from pys.classes import Repuesto,Persona
+
+
 
 def Herramienta_Repuesto(request):
 
-    f = open("my_APP/Repuesto.html", encoding="utf-8") 
+    if request.method == "POST":
+        form = forms.FormularioPersona(request.POST)
+        if form.is_valid():
+            nuevo = Repuesto(
+                form.cleaned_data['nombre'],
+                form.cleaned_data['precio_x_unidad'],
+                form.cleaned_data['cantidad']
+            )
+            return HttpResponseRedirect(reverse('Repuesto'))  
+    else:
+        form = forms.FormularioPersona()
+    aux_Repuestos=Repuesto.obtener_Repuesto()
+    Repuestos=[]
+    for _Repuesto in aux_Repuestos:
+        Repuestos.append(list(_Repuesto))
 
-    response=HttpResponse (f.read()) 
-    f.close() 
-    return response 
+    return render(request, 'my_APP/Repuesto.html', {'form': form, 'Repuestos': Repuestos})
 
+def Repuesto_delete(request,dni):
+    Persona.eliminar_Personas(dni)
+    return redirect('/Repuesto/')

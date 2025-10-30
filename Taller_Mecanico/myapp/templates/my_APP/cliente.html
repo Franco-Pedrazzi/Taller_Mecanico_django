@@ -1,8 +1,8 @@
 <h1>Cliente</h1>
 
-<button id="btnAgregar">Agregar Cliente</button>
+<button id="btnAgregar" >Agregar Cliente</button>
 
-<form id="formCliente" method="POST" style="display: none;">
+<form id="formCliente" method="POST" style="display: none;" >
     {% csrf_token %}
     {{ form.as_p }}
     <input type="hidden" id="modo" name="modo">
@@ -31,15 +31,15 @@
     <tbody>
         {% for c in clientes %}
         <tr>
-            <td>{{ c.id }}</td>
-            <td>{{ c.dni }}</td>
-            <td>{{ c.nombre }}</td>
-            <td>{{ c.apellido }}</td>
-            <td>{{ c.tel }}</td>
-            <td>{{ c.dir }}</td>
+            <td>{{ c.0 }}</td>
+            <td>{{ c.1}}</td>
+            <td>{{ c.2}}</td>
+            <td>{{ c.3}}</td>
+            <td>{{ c.4 }}</td>
+            <td>{{ c.5 }}</td>
             <td>
-                <button onclick="editarCliente({{ c.id }})">✏️</button>
-                <button onclick="eliminarCliente({{ c.id }})">🗑️</button>
+                <button onclick="editarCliente({{ c.0 }})">✏️</button>
+                <a href="/cliente/eliminar/{{ c.1 }}">🗑️</a>
             </td>
         </tr>
         {% endfor %}

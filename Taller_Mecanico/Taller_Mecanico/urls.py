@@ -12,6 +12,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("", views.index, name="index") ,
     path("cliente/", cliente.Herramienta_Cliente, name="cliente") ,
+    path('cliente/eliminar/<int:dni>/', cliente.cliente_delete, name='cliente_delete'),
     path("Empleado/", Empleado.Herramienta_Empleado, name="Empleado") ,
     path("Ficha_Tecnica/", Ficha_Tecnica.Herramienta_Ficha_Tecnica, name="Ficha_Tecnica") ,
     path("Ficha_Tecnica/", Presupuesto.Herramienta_Presupuesto, name="Presupuesto") ,

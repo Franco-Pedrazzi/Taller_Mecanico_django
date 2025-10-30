@@ -1,13 +1,12 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.urls import reverse
 from myapp import forms
-from pys.classes import cliente
+from pys.classes import cliente,Persona
 
-lista_clientes = []
+
 
 def Herramienta_Cliente(request):
-    global lista_clientes
 
     if request.method == "POST":
         form = forms.FormularioPersona(request.POST)
@@ -19,22 +18,16 @@ def Herramienta_Cliente(request):
                 form.cleaned_data['tel'],
                 form.cleaned_data['dir']
             )
-            lista_clientes.append(nuevo)
             return HttpResponseRedirect(reverse('cliente'))  
     else:
         form = forms.FormularioPersona()
-
-
-    clientes = [
-        {
-            "id": i+1,
-            "dni": c.dni,
-            "nombre": c.nombre,
-            "apellido": c.apellido,
-            "tel": c.tel,
-            "dir": c.dir
-        }
-        for i, c in enumerate(lista_clientes)
-    ]
+    aux_clientes=cliente.obtener_Cliente()
+    clientes=[]
+    for _cliente in aux_clientes:
+        clientes.append(list(_cliente))
 
     return render(request, 'my_APP/cliente.html', {'form': form, 'clientes': clientes})
+
+def cliente_delete(request,dni):
+    Persona.eliminar_Personas(dni)
+    return redirect('/cliente/')

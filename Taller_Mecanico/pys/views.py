@@ -1,10 +1,5 @@
 from django.http import HttpResponse 
-
+from django.shortcuts import render
 def index (request): 
- 
-    f = open("templates/index.html", encoding="utf-8") 
- 
-    response=HttpResponse (f.read()) 
-    f.close() 
-    return response 
+    return render(request, 'my_APP/index.html')
 
