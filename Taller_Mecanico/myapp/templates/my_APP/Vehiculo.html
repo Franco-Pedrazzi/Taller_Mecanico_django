@@ -1,8 +1,7 @@
-{% load static %}
 <h1>Cliente</h1>
-    <link rel="stylesheet" href="{% static 'styles.css' %}">
-<button id="btnAgregar" onclick="document.getElementById('formCliente').style='display:block;';document.getElementById('btnAgregar').style='display:none;';">Agregar Cliente</button>
 
+<button id="btnAgregar" onclick="document.getElementById('formCliente').style='display:block;';document.getElementById('btnAgregar').style='display:none;';">Agregar Cliente</button>
+ <link rel="stylesheet" href="{% static 'styles.css' %}">
 <form id="formCliente" method="POST" style="display: none;" >
     {% csrf_token %}
     {{ form.as_p }}

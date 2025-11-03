@@ -4,22 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gestión de Repuestos</title>
-<style>
-    body { font-family: Arial, sans-serif; padding: 20px; }
-    h1 { font-size: 24px; margin-bottom: 10px; }
-    form { display: none; border: 1px solid #ccc; border-radius: 10px; padding: 15px; margin: 10px 0; }
-    input, select { display: block; margin: 8px 0; padding: 6px; width: 100%; max-width: 300px; }
-    button { margin: 5px; padding: 6px 12px; }
-    table { border-collapse: collapse; width: 100%; margin-top: 10px; }
-    th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
-    th { background-color: #eee; }
-    .acciones button { margin-right: 5px; }
-</style>
+ <link rel="stylesheet" href="../../static/index.css">
 </head>
 <body>
 
 <h1>Repuestos</h1>
-<button id="btnAgregar">Agregar Repuesto</button>
+<button id="btnAgregar" onclick="document.getElementById('formCliente').style='display:block;';document.getElementById('btnAgregar').style='display:none;';">Agregar Cliente</button>
 
 <form id="formRepuesto">
     <input type="hidden" id="modo" value="">

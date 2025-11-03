@@ -1,57 +1,17 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Cliente</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-        }
-        h1 {
-            font-size: 24px;
-        }
-        form {
-            display: none;
-            margin-top: 15px;
-            border: 1px solid #ccc;
-            padding: 15px;
-            border-radius: 10px;
-        }
-        input, select {
-            display: block;
-            margin: 8px 0;
-            padding: 6px;
-            width: 100%;
-            max-width: 300px;
-        }
-        button {
-            margin-top: 10px;
-        }
-        table {
-            border-collapse: collapse;
-            margin-top: 20px;
-            width: 100%;
-        }
-        th, td {
-            border: 1px solid #ccc;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #eee;
-        }
-        .acciones button {
-            margin-right: 5px;
-        }
-    </style>
+
 </head>
 <body>
+     <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <h1>Empleado</h1>
 
-    <h1>Cliente</h1>
-
-    <button id="btnAgregar">Agregar Cliente</button>
+    <button id="btnAgregar" onclick="document.getElementById('formCliente').style='display:block;';document.getElementById('btnAgregar').style='display:none;';">Agregar Cliente</button>
 
     <form id="formCliente">
         <input type="hidden" id="modo" value="">
