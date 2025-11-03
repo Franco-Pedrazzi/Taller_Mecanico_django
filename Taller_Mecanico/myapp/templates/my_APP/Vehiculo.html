@@ -1,4 +1,6 @@
-<h1>Cliente</h1>
+{% load static %}
+
+<h1>Vehiculos de {{dueño}}</h1>
 
 <button id="btnAgregar" onclick="document.getElementById('formCliente').style='display:block;';document.getElementById('btnAgregar').style='display:none;';">Agregar Cliente</button>
  <link rel="stylesheet" href="{% static 'styles.css' %}">
@@ -14,30 +16,23 @@
 <hr>
 
 <label for="filtro">Filtro:</label>
-<input type="text" id="filtro" placeholder="Buscar por nombre o DNI">
+<input type="text" id="filtro" placeholder="matricula">
 <button id="btnFiltrar">🔍</button>
 
 <table id="tablaClientes">
     <thead>
         <tr>
-            <th>ID</th>
-            <th>DNI</th>
-            <th>Nombre</th>
-            <th>Apellido</th>
-            <th>Teléfono</th>
-            <th>Dirección</th>
-            <th>Acciones</th>
+            <th>matricula</th>
+            <th>color</th>
+            <th>modelo</th>
         </tr>
     </thead>
     <tbody>
-        {% for c in clientes %}
+        {% for c in Vehiculos %}
         <tr>
             <td>{{ c.0 }}</td>
             <td>{{ c.1}}</td>
             <td>{{ c.2}}</td>
-            <td>{{ c.3}}</td>
-            <td>{{ c.4 }}</td>
-            <td>{{ c.5 }}</td>
             <td>
                 <button onclick="editarCliente({{ c.0 }})">✏️</button>
                 <a href="/cliente/eliminar/{{ c.1 }}">🗑️</a>

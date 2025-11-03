@@ -1,195 +1,43 @@
 {% load static %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gestión de Presupuesto</title>
- <link rel="stylesheet" href="{% static 'styles.css' %}">
-</head>
-<body>
 
-<h1>Presupuestos</h1>
+<h1>Vehiculos de {{dueño}}</h1>
 
 <button id="btnAgregar" onclick="document.getElementById('formCliente').style='display:block;';document.getElementById('btnAgregar').style='display:none;';">Agregar Cliente</button>
-
-<form id="formPresupuesto">
-    <input type="hidden" id="modo" value="">
-    <input type="hidden" id="id_aux" value="">
-    
-    <label>Matrícula</label>
-    <select id="matricula">
-        <option value="">--Seleccione--</option>
-        <option>AAA111</option>
-        <option>BBB222</option>
-        <option>CCC333</option>
-    </select>
-
-    <label>Repuesto</label>
-    <select id="repuesto">
-        <option value="">--Seleccione--</option>
-        <option value="Filtro de aceite" data-precio="500">Filtro de aceite</option>
-        <option value="Pastillas de freno" data-precio="1200">Pastillas de freno</option>
-        <option value="Correa de distribución" data-precio="2000">Correa de distribución</option>
-    </select>
-
-    <label>Cantidad</label>
-    <input type="number" id="cantidad" placeholder="Cantidad">
-
-    <label>Legajo</label>
-    <select id="legajo">
-        <option value="">--Seleccione--</option>
-        <option>EMP001</option>
-        <option>EMP002</option>
-        <option>EMP003</option>
-    </select>
-
-    <button type="submit" id="btnGuardar">Guardar</button>
-    <button type="button" id="btnCancelar">Cancelar</button>
+ <link rel="stylesheet" href="{% static 'styles.css' %}">
+<form id="formCliente" method="POST" style="display: none;" >
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="hidden" id="modo" name="modo">
+   
+    <button type="button" id="cancelar" onclick="document.getElementById('formCliente').style='display:none;';document.getElementById('btnAgregar').style='display:block;';">Cancelar</button>
+    <button type="submit">Guardar</button>
 </form>
 
 <hr>
 
-<p id="resultado">0</p>
+<label for="filtro">Filtro:</label>
+<input type="text" id="filtro" placeholder="matricula">
+<button id="btnFiltrar">🔍</button>
 
-<table id="tablaPresupuesto">
+<table id="tablaClientes">
     <thead>
         <tr>
-            <th>ID</th>
-            <th>Repuesto</th>
-            <th>Legajo</th>
-            <th>Precio</th>
-            <th>Acciones</th>
+            <th>matricula</th>
+            <th>color</th>
+            <th>modelo</th>
         </tr>
     </thead>
-    <tbody></tbody>
+    <tbody>
+        {% for c in Vehiculos %}
+        <tr>
+            <td>{{ c.0 }}</td>
+            <td>{{ c.1}}</td>
+            <td>{{ c.2}}</td>
+            <td>
+                <button onclick="editarCliente({{ c.0 }})">✏️</button>
+                <a href="/cliente/eliminar/{{ c.1 }}">🗑️</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
 </table>
-
-<div id="final">
-    <button id="btnBorrar">Borrar Todo</button>
-    <button id="btnConfirmar">Confirmar Presupuesto</button>
-</div>
-
-<script>
-    let id = "";
-    let modoEdicion = false;
-    let idAux = "";
-    let contador = 1;
-    let presupuestos = [];
-
-    const tablaBody = document.querySelector("#tablaPresupuesto tbody");
-    const form = document.getElementById("formPresupuesto");
-    const resultado = document.getElementById("resultado");
-    const final = document.getElementById("final");
-
-    function mostrarFormulario(fila = null) {
-        form.style.display = "block";
-        if (fila) {
-            document.getElementById("modo").value = "editar";
-            idAux = fila.id;
-            document.getElementById("matricula").value = fila.matricula;
-            document.getElementById("repuesto").value = fila.repuesto;
-            document.getElementById("cantidad").value = fila.cantidad;
-            document.getElementById("legajo").value = fila.legajo;
-        } else {
-            form.reset();
-            document.getElementById("modo").value = "";
-            idAux = "";
-        }
-    }
-
-    function ocultarFormulario() {
-        form.style.display = "none";
-    }
-
-    function cargarTabla() {
-        tablaBody.innerHTML = "";
-        let total = 0;
-        presupuestos.forEach((p) => {
-            total += p.total;
-            const fila = document.createElement("tr");
-            fila.innerHTML = `
-                <td>${p.id}</td>
-                <td>${p.repuesto}</td>
-                <td>${p.legajo}</td>
-                <td>${p.total.toFixed(2)}</td>
-                <td class="acciones">
-                    <button onclick="editarFila(${p.id})">✏️</button>
-                    <button onclick="eliminarFila(${p.id})">🗑️</button>
-                </td>
-            `;
-            tablaBody.appendChild(fila);
-        });
-        resultado.textContent = total.toFixed(2);
-        resultado.style.display = presupuestos.length ? "block" : "none";
-        final.style.display = presupuestos.length ? "block" : "none";
-    }
-
-    function editarFila(idFila) {
-        const fila = presupuestos.find(p => p.id === idFila);
-        mostrarFormulario(fila);
-    }
-
-    function eliminarFila(idFila) {
-        presupuestos = presupuestos.filter(p => p.id !== idFila);
-        cargarTabla();
-    }
-
-    function borrarTodo() {
-        presupuestos = [];
-        cargarTabla();
-        resultado.textContent = "Presupuesto eliminado";
-        final.style.display = "none";
-    }
-
-    function confirmarPresupuesto() {
-        const nroEmpleados = new Set(presupuestos.map(p => p.legajo)).size;
-        const costoMano = nroEmpleados * 1000;
-        const subtotal = presupuestos.reduce((acc, p) => acc + p.total, 0);
-        const total = subtotal + costoMano;
-        resultado.textContent = `Presupuesto confirmado. Total: $${total.toFixed(2)} (mano de obra: $${costoMano})`;
-        final.style.display = "none";
-    }
-
-    form.addEventListener("submit", e => {
-        e.preventDefault();
-        const matricula = document.getElementById("matricula").value;
-        const repuestoEl = document.getElementById("repuesto");
-        const repuesto = repuestoEl.value;
-        const precio = parseFloat(repuestoEl.options[repuestoEl.selectedIndex].dataset.precio || 0);
-        const cantidad = parseFloat(document.getElementById("cantidad").value || 0);
-        const legajo = document.getElementById("legajo").value;
-
-        const total = precio * cantidad;
-
-        if (document.getElementById("modo").value === "editar") {
-            const fila = presupuestos.find(p => p.id === idAux);
-            fila.repuesto = repuesto;
-            fila.cantidad = cantidad;
-            fila.legajo = legajo;
-            fila.total = total;
-        } else {
-            presupuestos.push({
-                id: contador++,
-                matricula,
-                repuesto,
-                cantidad,
-                legajo,
-                total
-            });
-        }
-
-        ocultarFormulario();
-        cargarTabla();
-    });
-
-    document.getElementById("btnCancelar").onclick = ocultarFormulario;
-    document.getElementById("btnAgregar").onclick = () => mostrarFormulario();
-    document.getElementById("btnBorrar").onclick = borrarTodo;
-    document.getElementById("btnConfirmar").onclick = confirmarPresupuesto;
-
-    cargarTabla();
-</script>
-
-</body>
-</html>

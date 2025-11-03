@@ -26,7 +26,7 @@ def Herramienta_Empleado(request):
     for _Empleado in aux_Empleados:
         Empleado.append(list(_Empleado))
 
-    return render(request, 'my_APP/Empleado.html', {'form': form, 'Empleados': Empleados})
+    return render(request, 'my_APP/Empleado.html', {'form': form, 'Empleados': Empleado})
 
 def Empleado_delete(request,dni):
     Persona.eliminar_Personas(dni)

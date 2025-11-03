@@ -25,9 +25,9 @@ def Herramienta_Cliente(request):
     clientes=[]
     for _cliente in aux_clientes:
         clientes.append(list(_cliente))
-
+    
     return render(request, 'my_APP/cliente.html', {'form': form, 'clientes': clientes})
 
-def cliente_delete(request,dni):
+def cliente_delete(request,dni,tabla):
     Persona.eliminar_Personas(dni)
-    return redirect('/cliente/')
+    return redirect(f'/{tabla}/')

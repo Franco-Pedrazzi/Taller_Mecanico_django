@@ -11,7 +11,7 @@ class FormularioVehiculo(forms.Form):
   matricula=forms.CharField(required=True)
   color=forms.CharField(required=True)
   modelo=forms.CharField(required=True)
-  dni_cliente= forms.CharField(required=True)
+
 
 class FormularioRepuesto(forms.Form):
   nombre=forms.CharField(required=True)
