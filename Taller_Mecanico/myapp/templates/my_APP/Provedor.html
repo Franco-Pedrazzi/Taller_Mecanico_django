@@ -51,7 +51,7 @@
             <td>{{ c.5 }}</td>
             <td>
                 {% if user.is_authenticated %}
-                <button onclick="editarCliente({{ c.0 }})">✏️</button>
+                <button onclick="editarCliente({{ c.1 }})">✏️</button>
                 <a href="/persona/eliminar/{{ c.1 }}/Provedor">🗑️</a>
                 {% endif %}
             </td>

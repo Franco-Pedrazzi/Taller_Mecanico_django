@@ -128,7 +128,7 @@ class Empleados(Persona):
                 (`password`, `last_login`, `is_superuser`, `username`, `first_name`, `last_name`, `email`, `is_staff`, `is_active`, `date_joined`)
                 VALUES
                 (%s, NULL, 0, %s, %s, %s, %s, 0, 1, NOW())
-            """, (contraseña_encriptada, f"Empleado #{legajo}", self.nombre, self.apellido, f"{self.nombre.lower().replace(" ", "_")}@example.com"))
+            """, (contraseña_encriptada, f"Empleado#{legajo}", self.nombre, self.apellido, f"{self.nombre.lower().replace(" ", "_")}@example.com"))
             conn.commit()
         except Exception as e:
             print("Error al insertar Empleado:", e)
@@ -278,7 +278,6 @@ class Usuarios:
                     WHERE legajo=%s
                 """, (legajo,))
                 dni=cursor.fetchone()
-                print("\nsadsadsaasdasd")
                 cursor.execute("""
                     SELECT nombre 
                     FROM Persona

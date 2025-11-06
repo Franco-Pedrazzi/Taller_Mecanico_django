@@ -26,7 +26,7 @@
 <table id="tablaClientes">
     <thead>
         <tr>
-            <th>ID</th>
+            <th>Legajo</th>
             <th>DNI</th>
             <th>Nombre</th>
             <th>Apellido</th>
@@ -48,8 +48,8 @@
             <td>{{ c.5 }}</td>
             <td>
                 {% if user.is_authenticated %}
-                <button onclick="editarCliente({{ c.0 }})">✏️</button>
-                <a href="/persona/eliminar/{{ c.0 }}/Empleado">🗑️</a>
+                <button onclick="editarCliente({{ c.1 }})">✏️</button>
+                <a href="/persona/eliminar/{{ c.1 }}/Empleado">🗑️</a>
                 {% endif %}
             </td>
         </tr>
