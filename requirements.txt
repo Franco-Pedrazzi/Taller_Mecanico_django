@@ -1,0 +1,10 @@
+asgiref==3.10.0
+Django==5.2.7
+MarkupSafe==3.0.3
+mysql-connector-python==9.5.0
+mysqlclient==2.2.7
+sqlparse==0.5.3
+WTForms==3.2.1
+WTForms-Django==0.1
+django-crispy-forms==2.4
+crispy-bootstrap4==2025.6

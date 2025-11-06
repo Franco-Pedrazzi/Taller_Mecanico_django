@@ -44,7 +44,7 @@ add constraint Fk_dni_empleado
 foreign key (`dni_empleado`)
     references Persona (`dni`)
     ON DELETE CASCADE
-    on update cascade;
+    ON UPDATE CASCADE;
 
 CREATE TABLE `Vehiculo` (
   `matricula` varchar(10) PRIMARY KEY,
@@ -119,9 +119,7 @@ VALUES
 -- usuario administrador
 ('pbkdf2_sha256$1000000$CrI1sYOXoG3cmrhp6fL6Av$7AsEvNpFxeGtHJdZ/rpgPu6Jg3RyrcZiIxItVgyHE3s=', NOW(), 1, 'admin', 'Administrador', 'General', 'admin@example.com', 1, 1, NOW()),
 
--- usuario normal
 ('pbkdf2_sha256$1000000$CrI1sYOXoG3cmrhp6fL6Av$7AsEvNpFxeGtHJdZ/rpgPu6Jg3RyrcZiIxItVgyHE3s=', NOW(), 0, 'robert', 'Robert', 'Smith', 'robert@example.com', 0, 1, NOW()),
 
--- otro usuario activo sin permisos
 ('pbkdf2_sha256$1000000$CrI1sYOXoG3cmrhp6fL6Av$7AsEvNpFxeGtHJdZ/rpgPu6Jg3RyrcZiIxItVgyHE3s=', NOW(), 0, '1', 'Francisco', 'López', 'fran@example.com', 0, 1, NOW());
 

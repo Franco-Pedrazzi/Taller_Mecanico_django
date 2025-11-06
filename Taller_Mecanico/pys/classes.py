@@ -1,4 +1,6 @@
 import mysql.connector
+import django.contrib.auth.hashers as hashers
+from django.contrib.auth.hashers import make_password
 from collections import Counter
 
 def conectar_bd():
@@ -115,10 +117,21 @@ class Empleados(Persona):
         conn = conectar_bd()
         cursor = conn.cursor()
         try:
-            cursor.execute("INSERT INTO Empleado (dni_Empleado) VALUES (%s)", (self.dni,))
+            cursor.execute("INSERT INTO Empleado (dni_empleado) VALUES (%s)", (self.dni,))
+            conn.commit()
+            #Insertar un nuevo usuario con los datos de el empleado
+            contraseña_encriptada = make_password(self.dni)
+            cursor.execute("SELECT legajo FROM Empleado WHERE dni_empleado=%s", (self.dni,))
+            legajo = cursor.fetchone()[0]
+            cursor.execute("""
+                INSERT INTO `auth_user` 
+                (`password`, `last_login`, `is_superuser`, `username`, `first_name`, `last_name`, `email`, `is_staff`, `is_active`, `date_joined`)
+                VALUES
+                (%s, NULL, 0, %s, %s, %s, %s, 0, 1, NOW())
+            """, (contraseña_encriptada, f"Empleado #{legajo}", self.nombre, self.apellido, f"{self.nombre.lower().replace(" ", "_")}@example.com"))
             conn.commit()
         except Exception as e:
-            print("Error al insertar Cliente:", e)
+            print("Error al insertar Empleado:", e)
         finally:
             cursor.close()
             conn.close()
@@ -129,7 +142,7 @@ class Empleados(Persona):
                 cursor.execute("""
                 SELECT c.legajo, p.dni, p.nombre, p.apellido, p.tel, p.dir
                 FROM Empleado c
-                JOIN Persona p ON c.dni_Empleado = p.dni
+                JOIN Persona p ON c.dni_empleado = p.dni
                 WHERE c.legajo LIKE %s
                 """, (nombre,))
             return cursor.fetchall()
@@ -140,7 +153,7 @@ class Empleados(Persona):
         cursor.execute("""
         SELECT c.legajo, p.dni, p.nombre, p.apellido, p.tel, p.dir
         FROM Empleado c
-        JOIN Persona p ON c.dni_Empleado = p.dni
+        JOIN Persona p ON c.dni_empleado = p.dni
         """)
         resultados = cursor.fetchall()
         cursor.close()
@@ -160,7 +173,7 @@ class Provedores(Persona):
             cursor.execute("INSERT INTO Provedor (dni_Provedor) VALUES (%s)", (self.dni,))
             conn.commit()
         except Exception as e:
-            print("Error al insertar Cliente:", e)
+            print("Error al insertar Proveedor:", e)
         finally:
             cursor.close()
             conn.close()
@@ -473,7 +486,7 @@ class FichaTecnica:
 
             empleados = [fila[2] for fila in detalles]
             nroEmpleados = len(set(empleados))
-
+            #arreglar esto
             subtotal = 0
             for fila in detalles[1:]:
                 print("\n",fila)
@@ -486,7 +499,7 @@ class FichaTecnica:
                 if precio_repuesto:
                     subtotal += cantidad * precio_repuesto[0]
 
-
+            #--------
             mano_de_obra = nroEmpleados * 1000
             total = subtotal + mano_de_obra
 
