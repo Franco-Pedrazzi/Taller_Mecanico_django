@@ -90,16 +90,38 @@ CREATE TABLE `Ficha_Tecnica` (
   `total`float,
   FOREIGN KEY (`Vehiculo_Matricula`) REFERENCES `Vehiculo` (`matricula`) ON DELETE CASCADE
 );
+CREATE TABLE `auth_user` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `password` varchar(128) NOT NULL,
+  `last_login` datetime(6) DEFAULT NULL,
+  `is_superuser` tinyint(1) NOT NULL,
+  `username` varchar(150) NOT NULL UNIQUE,
+  `first_name` varchar(150) NOT NULL,
+  `last_name` varchar(150) NOT NULL,
+  `email` varchar(254) NOT NULL,
+  `is_staff` tinyint(1) NOT NULL,
+  `is_active` tinyint(1) NOT NULL,
+  `date_joined` datetime(6) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE Usuarios (
-  email VARCHAR(150) PRIMARY KEY,
-  nombre VARCHAR(100) NOT NULL,
-  contraseña  VARCHAR(150) NOT NULL,
-  legajo INT NOT NULL,
-  FOREIGN KEY (`legajo`) REFERENCES `Empleado` (`legajo`) ON DELETE CASCADE
-  
+CREATE TABLE `django_session` (
+  `session_key` varchar(40) NOT NULL PRIMARY KEY,
+  `session_data` longtext NOT NULL,
+  `expire_date` datetime(6) NOT NULL
 );
 
 insert into Persona values(1,"Name","LastName","12","12");
 insert into Empleado values (1,1);
-insert into Usuarios values ("Robert@gmail.com","Name","1234",1), ("Fran@gmail.com","Name","1234",1), ("Jos@gmail.com","Name","1234",1),("1","Name","1",1);
+INSERT INTO `auth_user` 
+(`password`, `last_login`, `is_superuser`, `username`, `first_name`, `last_name`, `email`, `is_staff`, `is_active`, `date_joined`)
+VALUES
+-- usuario administrador
+('pbkdf2_sha256$1000000$CrI1sYOXoG3cmrhp6fL6Av$7AsEvNpFxeGtHJdZ/rpgPu6Jg3RyrcZiIxItVgyHE3s=', NOW(), 1, 'admin', 'Administrador', 'General', 'admin@example.com', 1, 1, NOW()),
+
+-- usuario normal
+('pbkdf2_sha256$1000000$CrI1sYOXoG3cmrhp6fL6Av$7AsEvNpFxeGtHJdZ/rpgPu6Jg3RyrcZiIxItVgyHE3s=', NOW(), 0, 'robert', 'Robert', 'Smith', 'robert@example.com', 0, 1, NOW()),
+
+-- otro usuario activo sin permisos
+('pbkdf2_sha256$1000000$CrI1sYOXoG3cmrhp6fL6Av$7AsEvNpFxeGtHJdZ/rpgPu6Jg3RyrcZiIxItVgyHE3s=', NOW(), 0, '1', 'Francisco', 'López', 'fran@example.com', 0, 1, NOW());
+

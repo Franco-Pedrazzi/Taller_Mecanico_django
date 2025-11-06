@@ -7,7 +7,6 @@
             font-size: 24px;
         }
         form {
-            display: none;
             margin-top: 15px;
             border: 1px solid #ccc;
             padding: 15px;
@@ -30,7 +29,7 @@
         }
         th, td {
             border: 1px solid #ccc;
-         ''    padding: 8px;
+            padding: 8px;
             text-align: left;
         }
         th {

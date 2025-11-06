@@ -1,43 +1,102 @@
+{% extends "./base.html" %}
 {% load static %}
+{% block body %}
 
-<h1>Vehiculos de {{dueño}}</h1>
+<h1>Lista de Repuestos</h1>
 
-<button id="btnAgregar" onclick="document.getElementById('formCliente').style='display:block;';document.getElementById('btnAgregar').style='display:none;';">Agregar Cliente</button>
- <link rel="stylesheet" href="{% static 'styles.css' %}">
-<form id="formCliente" method="POST" style="display: none;" >
+{% if user.is_authenticated %}
+<button id="btnAgregar" 
+    onclick="mostrarFormulario('agregar')">Agregar</button>
+{% endif %}
+
+<form id="formCliente" method="POST" style="display:none;">
     {% csrf_token %}
     {{ form.as_p }}
-    <input type="hidden" id="modo" name="modo">
-   
-    <button type="button" id="cancelar" onclick="document.getElementById('formCliente').style='display:none;';document.getElementById('btnAgregar').style='display:block;';">Cancelar</button>
-    <button type="submit">Guardar</button>
+    <input type="hidden" id="modo" name="modo" value="agregar">
+    <input type="hidden" id="cliente_id" name="cliente_id">
+
+    <button type="button" id="cancelar" onclick="cancelarFormulario()">Cancelar</button>
+    <button type="submit" id="btnGuardar">Guardar</button>
 </form>
+<hr>
+
 
 <hr>
 
 <label for="filtro">Filtro:</label>
-<input type="text" id="filtro" placeholder="matricula">
+<input type="text" id="filtro" placeholder="nombre del repuesto">
 <button id="btnFiltrar">🔍</button>
 
-<table id="tablaClientes">
+<table id="tablaRepuestos">
     <thead>
         <tr>
-            <th>matricula</th>
-            <th>color</th>
-            <th>modelo</th>
+            <th>Nombre</th>
+            <th>Precio por unidad</th>
+            <th>Cantidad</th>
+            {% if user.is_authenticated %}
+            <th>Acciones</th>
+            {% endif %}
         </tr>
     </thead>
     <tbody>
-        {% for c in Vehiculos %}
+        {% for c in Repuestos %}
         <tr>
             <td>{{ c.0 }}</td>
-            <td>{{ c.1}}</td>
-            <td>{{ c.2}}</td>
+            <td>{{ c.1 }}</td>
+            <td>{{ c.2 }}</td>
+            {% if user.is_authenticated %}
             <td>
-                <button onclick="editarCliente({{ c.0 }})">✏️</button>
-                <a href="/cliente/eliminar/{{ c.1 }}">🗑️</a>
+                <button onclick="editarRepuesto('{{ r.0 }}')">✏️</button>
+                <a href="/Repuesto/eliminar/{{ r.0 }}/">🗑️</a>
             </td>
+            {% endif %}
         </tr>
         {% endfor %}
     </tbody>
 </table>
+
+<script>
+function editarRepuesto(nombre) {
+    document.getElementById('formRepuesto').style.display = 'block';
+    document.getElementById('btnAgregar').style.display = 'none';
+    document.getElementById('modo').value = nombre; // puedes usar esto para identificar el repuesto a editar
+}
+</script>
+
+<script>
+document.getElementById('filtro').addEventListener('keyup', function () {
+    const filtro = this.value.toLowerCase();
+    const filas = document.querySelectorAll('#tablaClientes tbody tr');
+    filas.forEach(fila => {
+        const dni = fila.children[1].textContent.toLowerCase();
+        const nombre = fila.children[2].textContent.toLowerCase();
+        fila.style.display = (dni.includes(filtro) || nombre.includes(filtro)) ? '' : 'none';
+    });
+});
+
+function mostrarFormulario(modo) {
+    document.getElementById('modo').value = modo;
+    document.getElementById('formCliente').style.display = 'block';
+    document.getElementById('btnAgregar').style.display = 'none';
+}
+
+function cancelarFormulario() {
+    document.getElementById('formCliente').reset();
+    document.getElementById('modo').value = 'agregar';
+    document.getElementById('cliente_id').value = '';
+    document.getElementById('formCliente').style.display = 'none';
+    document.getElementById('btnAgregar').style.display = 'block';
+}
+
+function editarCliente(id, dni, nombre, apellido, telefono, direccion) {
+    mostrarFormulario('editar');
+    document.getElementById('cliente_id').value = id;
+
+    document.querySelector('[name="dni"]').value = dni;
+    document.querySelector('[name="nombre"]').value = nombre;
+    document.querySelector('[name="apellido"]').value = apellido;
+
+    document.getElementById('btnGuardar').textContent = 'Actualizar';
+}
+</script>
+{% endblock %}

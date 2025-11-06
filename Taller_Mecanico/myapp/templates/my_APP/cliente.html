@@ -1,22 +1,28 @@
+{% extends "./base.html" %}
 {% load static %}
+{% block body %}
 <h1>Cliente</h1>
-    <link rel="stylesheet" href="{% static 'styles.css' %}">
-<button id="btnAgregar" onclick="document.getElementById('formCliente').style='display:block;';document.getElementById('btnAgregar').style='display:none;';">Agregar Cliente</button>
+<link rel="stylesheet" href="{% static 'styles.css' %}">
 
-<form id="formCliente" method="POST" style="display: none;" >
+{% if user.is_authenticated %}
+<button id="btnAgregar" 
+    onclick="mostrarFormulario('agregar')">Agregar Cliente</button>
+{% endif %}
+
+<form id="formCliente" method="POST" style="display:none;">
     {% csrf_token %}
     {{ form.as_p }}
-    <input type="hidden" id="modo" name="modo">
-   
-    <button type="button" id="cancelar" onclick="document.getElementById('formCliente').style='display:none;';document.getElementById('btnAgregar').style='display:block;';">Cancelar</button>
-    <button type="submit">Guardar</button>
+    <input type="hidden" id="modo" name="modo" value="agregar">
+    <input type="hidden" id="cliente_id" name="cliente_id">
+
+    <button type="button" id="cancelar" onclick="cancelarFormulario()">Cancelar</button>
+    <button type="submit" id="btnGuardar">Guardar</button>
 </form>
 
 <hr>
 
 <label for="filtro">Filtro:</label>
 <input type="text" id="filtro" placeholder="Buscar por nombre o DNI">
-<button id="btnFiltrar">🔍</button>
 
 <table id="tablaClientes">
     <thead>
@@ -34,16 +40,60 @@
         {% for c in clientes %}
         <tr>
             <td>{{ c.0 }}</td>
-            <td>{{ c.1}}</td>
-            <td>{{ c.2}}</td>
-            <td>{{ c.3}}</td>
+            <td>{{ c.1 }}</td>
+            <td>{{ c.2 }}</td>
+            <td>{{ c.3 }}</td>
             <td>{{ c.4 }}</td>
             <td>{{ c.5 }}</td>
             <td>
-                <button onclick="editarCliente({{ c.0 }})">✏️</button>
+                {% if user.is_authenticated %}
+                <button type="button" onclick="editarCliente({{ c.0 }}, '{{ c.1 }}', '{{ c.2 }}', '{{ c.3 }}', '{{ c.4 }}', '{{ c.5 }}')">✏️</button>
                 <a href="/persona/eliminar/{{ c.1 }}/cliente">🗑️</a>
+                {% endif %}
+                <a href="../vehicle/{{ c.0 }}">🚗</a>
             </td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
+
+<script>
+document.getElementById('filtro').addEventListener('keyup', function () {
+    const filtro = this.value.toLowerCase();
+    const filas = document.querySelectorAll('#tablaClientes tbody tr');
+    filas.forEach(fila => {
+        const dni = fila.children[1].textContent.toLowerCase();
+        const nombre = fila.children[2].textContent.toLowerCase();
+        fila.style.display = (dni.includes(filtro) || nombre.includes(filtro)) ? '' : 'none';
+    });
+});
+
+function mostrarFormulario(modo) {
+    document.getElementById('modo').value = modo;
+    document.getElementById('formCliente').style.display = 'block';
+    document.getElementById('btnAgregar').style.display = 'none';
+}
+
+function cancelarFormulario() {
+    document.getElementById('formCliente').reset();
+    document.getElementById('modo').value = 'agregar';
+    document.getElementById('cliente_id').value = '';
+    document.getElementById('formCliente').style.display = 'none';
+    document.getElementById('btnAgregar').style.display = 'block';
+}
+
+function editarCliente(id, dni, nombre, apellido, telefono, direccion) {
+    mostrarFormulario('editar');
+    document.getElementById('cliente_id').value = id;
+
+    document.querySelector('[name="dni"]').value = dni;
+    document.querySelector('[name="nombre"]').value = nombre;
+    document.querySelector('[name="apellido"]').value = apellido;
+    document.querySelector('[name="telefono"]').value = telefono;
+    document.querySelector('[name="direccion"]').value = direccion;
+
+    document.getElementById('btnGuardar').textContent = 'Actualizar';
+}
+</script>
+
+{% endblock %}

@@ -1,64 +1,30 @@
+{% extends "./base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Ficha Técnica</title>
- <link rel="stylesheet" href="{% static 'styles.css' %}">
-</head>
-<body>
+{% block body %}
 
-    <h1>Ficha Técnica</h1>
-    <hr>
-
-    <div class="contenedor">
-        <table id="tablaFicha">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Matrícula</th>
-                    <th>N° Empleados</th>
-                    <th>Subtotal</th>
-                    <th>Mano de Obra</th>
-                    <th>Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Se cargan dinámicamente -->
-            </tbody>
-        </table>
-    </div>
-
-    <script>
-        // 🔧 Datos de ejemplo (simulan FichaTecnica.obtener_FichaTecnica())
-        const fichasTecnicas = [
-            [1, "ABC123", 2, 5000, 1500, 6500],
-            [2, "XYZ789", 3, 7000, 2000, 9000],
-            [3, "LMN456", 1, 3000, 1200, 4200]
-        ];
-
-        const tablaBody = document.querySelector('#tablaFicha tbody');
-
-        function cargarTabla(datos) {
-            tablaBody.innerHTML = '';
-            datos.forEach(ficha => {
-                const fila = document.createElement('tr');
-                fila.innerHTML = `
-                    <td>${ficha[0]}</td>
-                    <td>${ficha[1]}</td>
-                    <td>${ficha[2]}</td>
-                    <td>${ficha[3]}</td>
-                    <td>${ficha[4]}</td>
-                    <td>${ficha[5]}</td>
-                `;
-                tablaBody.appendChild(fila);
-            });
-        }
-
-        // Inicializa la tabla
-        cargarTabla(fichasTecnicas);
-    </script>
-
-</body>
-</html>
+<h1>Fichas tecnicas</h1>
+<table id="tablaClientes">
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>matricula</th>
+            <th>nro de empleados</th>
+            <th>subtotal</th>
+            <th>mano de obra</th>
+            <th>total</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for c in Ficha_Tecnicas %}
+        <tr>
+            <td>{{ c.0 }}</td>
+            <td>{{ c.1}}</td>
+            <td>{{ c.2}}</td>
+            <td>{{ c.3 }}</td>
+            <td>{{ c.4}}</td>
+            <td>{{ c.5}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

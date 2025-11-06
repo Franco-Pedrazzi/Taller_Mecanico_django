@@ -1,43 +1,98 @@
+{% extends './base.html' %}
 {% load static %}
 
-<h1>Vehiculos de {{dueño}}</h1>
+{% block body %}
+<div class="container mt-4">
+    <h2 class="text-center mb-4 fw-bold">Gestión de Presupuestos</h2>
 
-<button id="btnAgregar" onclick="document.getElementById('formCliente').style='display:block;';document.getElementById('btnAgregar').style='display:none;';">Agregar Cliente</button>
- <link rel="stylesheet" href="{% static 'styles.css' %}">
-<form id="formCliente" method="POST" style="display: none;" >
+{% if user.is_authenticated %}
+<button id="btnAgregar" 
+    onclick="mostrarFormulario('agregar')">Agregar</button>
+{% endif %}
+
+<form id="formCliente" method="POST" style="display:none;">
     {% csrf_token %}
     {{ form.as_p }}
-    <input type="hidden" id="modo" name="modo">
-   
-    <button type="button" id="cancelar" onclick="document.getElementById('formCliente').style='display:none;';document.getElementById('btnAgregar').style='display:block;';">Cancelar</button>
-    <button type="submit">Guardar</button>
+
+    <input type="hidden" id="modo" name="modo" value="agregar">
+    <input type="hidden" id="cliente_id" name="cliente_id">
+
+    <button type="button" id="cancelar" onclick="cancelarFormulario()">Cancelar</button>
+    <button type="submit" id="btnGuardar">Guardar</button>
 </form>
 
 <hr>
+    <h1>{{ id }}</h1>
+    <h3>{{ Presupuestos.0.1 }}</h3>
+    <button class="btn btn-danger" onclick="location.href='/Presupuesto/{{ id }}/delete'">Eliminar</button>
+    <button class="btn btn-success" onclick="location.href='/Ficha_Tecnica/{{id}}'">Terminar</button>
+    <table id="tablaClientes">
+        <thead>
+            <tr>
+                            
+                <th>Repuesto</th>
+                <th>Cantidad</th>
+                <th>Legajo</th>
+                <th>Precio</th>
+            {% if user.is_authenticated %}
+            <th>Acciones</th>
+            {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in Presupuestos.1 %}
+            <tr>
+                <td>{{ p.1 }}</td>
+                <td>{{ p.4 }}</td>
+                <td>{{ p.3 }}</td>
+                <td>{{ p.5 }}</td>
+                <td>
+                    <a href="/Presupuesto/{{p.0}}/delete/{{p.4}}" >🗑️</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="7" class="text-center text-muted">No hay presupuestos</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 
-<label for="filtro">Filtro:</label>
-<input type="text" id="filtro" placeholder="matricula">
-<button id="btnFiltrar">🔍</button>
+<script>
+document.getElementById('filtro').addEventListener('keyup', function () {
+    const filtro = this.value.toLowerCase();
+    const filas = document.querySelectorAll('#tablaClientes tbody tr');
+    filas.forEach(fila => {
+        const dni = fila.children[1].textContent.toLowerCase();
+        const nombre = fila.children[2].textContent.toLowerCase();
+        fila.style.display = (dni.includes(filtro) || nombre.includes(filtro)) ? '' : 'none';
+    });
+});
 
-<table id="tablaClientes">
-    <thead>
-        <tr>
-            <th>matricula</th>
-            <th>color</th>
-            <th>modelo</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for c in Vehiculos %}
-        <tr>
-            <td>{{ c.0 }}</td>
-            <td>{{ c.1}}</td>
-            <td>{{ c.2}}</td>
-            <td>
-                <button onclick="editarCliente({{ c.0 }})">✏️</button>
-                <a href="/cliente/eliminar/{{ c.1 }}">🗑️</a>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+function mostrarFormulario(modo) {
+    document.getElementById('modo').value = modo;
+    document.getElementById('formCliente').style.display = 'block';
+    document.getElementById('btnAgregar').style.display = 'none';
+}
+
+function cancelarFormulario() {
+    document.getElementById('formCliente').reset();
+    document.getElementById('modo').value = 'agregar';
+    document.getElementById('cliente_id').value = '';
+    document.getElementById('formCliente').style.display = 'none';
+    document.getElementById('btnAgregar').style.display = 'block';
+}
+
+function editarCliente(id, dni, nombre, apellido, telefono, direccion) {
+    mostrarFormulario('editar');
+    document.getElementById('cliente_id').value = id;
+
+    document.querySelector('[name="dni"]').value = dni;
+    document.querySelector('[name="nombre"]').value = nombre;
+    document.querySelector('[name="apellido"]').value = apellido;
+    document.querySelector('[name="telefono"]').value = telefono;
+    document.querySelector('[name="direccion"]').value = direccion;
+
+    document.getElementById('btnGuardar').textContent = 'Actualizar';
+}
+</script>
+{% endblock %}

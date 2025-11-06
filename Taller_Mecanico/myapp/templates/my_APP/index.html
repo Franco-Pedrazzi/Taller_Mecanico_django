@@ -1,11 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Mateo sos un capo</h1>
-</body>
-</html>
+{% extends "./base.html" %}
+{% load static %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold text-primary">Taller Mecanico</h1>
+        <p class="lead text-muted">Reparaciones, mantenimiento y servicio de excelencia para tu vehículo.</p>
+    </div>
+
+    <div class="row text-center">
+        <div class="col-md-4 mb-4">
+            <h4 class="fw-bold">Reparaciones Generales</h4>
+            <p>Desde motores hasta transmisiones, tu auto queda como nuevo.</p>
+        </div>
+        <div class="col-md-4 mb-4">
+            <h4 class="fw-bold">Cambio de Aceite</h4>
+            <p>Usamos los mejores productos para prolongar la vida de tu motor.</p>
+        </div>
+        <div class="col-md-4 mb-4">
+            <h4 class="fw-bold">Sistema de Frenos</h4>
+            <p>Seguridad ante todo. Revisión y mantenimiento completo de frenos.</p>
+        </div>
+    </div>
+
+    <hr class="my-5">
+
+    <div class="text-center">
+        <h2 class="fw-bold">Contactanos</h2>
+        <p> Calle Ratanelli 123, Bisket<br> (011) 5555-5555<br> Lunes a Martes, 8:00 a 9:00</p>
+        <a href="https://mail.google.com/mail/u/1/#inbox?compose=DmwnWrRtsNGKhqjskMcSRjDNmPBfqmgMfbRjnWwMXsHPlrfqVBVgnnXrQNrpcSjSbfTBKKDCrgnb" class="btn btn-primary btn-lg mt-3" target="_blank">Solicitar Turno</a>
+    </div>
+</div>
+{% endblock %}

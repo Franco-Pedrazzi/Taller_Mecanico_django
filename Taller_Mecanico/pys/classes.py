@@ -1,4 +1,5 @@
 import mysql.connector
+from collections import Counter
 
 def conectar_bd():
     return mysql.connector.connect(
@@ -324,6 +325,12 @@ class Vehiculos:
                 cursor.execute("SELECT * FROM Vehiculo WHERE dni_cliente LIKE %s",(dni_cliente,))
                 return cursor.fetchall()
 
+    def obtener_Vehiculos():
+        with conectar_bd() as conn:
+            with conn.cursor() as cursor:
+                cursor.execute("SELECT * FROM Vehiculo")
+                return cursor.fetchall()
+
     def insertar_Vehiculo(matricula, color, modelo,dni_cliente):
         with conectar_bd() as conn:
             with conn.cursor() as cursor:
@@ -351,42 +358,63 @@ class Vehiculos:
 
 class Presupuestos:
 
-    def insertar_Presupuestos(matricula, repuesto, cantidad, legajo, precio, id=None):
+    def insertar_Presupuestos(matricula, repuesto, cantidad, legajo, precio):
         conn = conectar_bd()
-        cursor = conn.cursor()
+        cursor = conn.cursor(buffered=True)
+        id = None
+
         try:
-            if id is None:
+
+            cursor.execute("SELECT id FROM Reparaciones WHERE matricula_vehiculo=%s", (matricula,))
+            value = cursor.fetchall()
+
+            if not value:
                 cursor.execute(
                     "INSERT INTO Reparaciones (matricula_vehiculo) VALUES (%s)",
                     (matricula,)
                 )
+                conn.commit()
                 cursor.execute("SELECT MAX(id) FROM Reparaciones")
                 id = cursor.fetchone()[0]
+            else:
+
+                id = value[0][0]
 
             cursor.execute(
-                """INSERT INTO detalle_Reparacion
+                """
+                INSERT INTO detalle_Reparacion
                 (reparacion_id, legajo, repuesto, cantidad, precio)
-                VALUES (%s, %s, %s, %s, %s)""",
+                VALUES (%s, %s, %s, %s, %s)
+                """,
                 (id, legajo, repuesto, cantidad, precio)
             )
 
             conn.commit()
+
         except Exception as e:
-            print("Error al insertar Presupuesto:", e)
+            conn.rollback()
+
         finally:
             cursor.close()
             conn.close()
+
         return id
 
-    def obtener_Presupuesto(id):
+
+    def obtener_Presupuesto(matricula):
         resultado = []
         with conectar_bd() as conn:
             with conn.cursor() as cursor:
-                cursor.execute("SELECT * FROM Reparaciones WHERE id=%s", (id,))
-                resultado.append(cursor.fetchone())
-
-                cursor.execute("SELECT * FROM detalle_Reparacion WHERE reparacion_id=%s", (id,))
-                resultado.append(cursor.fetchall())
+                cursor.execute("SELECT * FROM Reparaciones WHERE matricula_vehiculo=%s", (matricula,))
+                reparacion = cursor.fetchone() 
+            
+                if reparacion:  
+                    resultado.append(reparacion)
+                    id = reparacion[0]
+                    cursor.execute("SELECT * FROM detalle_Reparacion WHERE reparacion_id=%s", (id,))
+                    resultado.append(list(cursor.fetchall()))
+                else:
+                    resultado = []
         return resultado
 
     def eliminar_Presupuesto(id):
@@ -395,11 +423,30 @@ class Presupuestos:
                 cursor.execute("DELETE FROM detalle_Reparacion WHERE id=%s", (id,))
                 conn.commit()
                 
-    def eliminar_Todo_Presupuesto(id):
+    def eliminar_Todo_Presupuesto(matricula):
         with conectar_bd() as conn:
             with conn.cursor() as cursor:
-                cursor.execute("DELETE FROM Reparaciones WHERE id=%s", (id,))
-                conn.commit()
+                try:
+                    cursor.execute("SELECT id FROM Reparaciones WHERE matricula_vehiculo = %s", (matricula,))
+                    resultado = cursor.fetchone()
+
+                    if not resultado:
+                        print("No se encontró reparación asociada a esa matrícula.")
+                        return False
+
+                    id_reparacion = resultado[0]
+
+                    cursor.execute("DELETE FROM detalle_Reparacion WHERE reparacion_id = %s", (id_reparacion,))
+                    conn.commit()
+
+                    cursor.execute("DELETE FROM Reparaciones WHERE id = %s", (id_reparacion,))
+                    conn.commit()
+                    return True
+
+                except Exception as e:
+                    conn.rollback()
+                    return False
+
 
     def actualizar_Presupuesto(repuesto, cantidad, legajo, precio, id):
         with conectar_bd() as conn:
@@ -412,23 +459,52 @@ class Presupuestos:
                 conn.commit()
 
 class FichaTecnica:
-    def insertar_FichaTecnica(Vehiculo_Matricula,nroEmpleados,subtotal,mano_de_obra,total):
+    def insertar_FichaTecnica(Vehiculo_Matricula):
         conn = conectar_bd()
         cursor = conn.cursor()
+
         try:
-            cursor.execute(
-                    "INSERT INTO Ficha_Tecnica (Vehiculo_Matricula,nroEmpleados,subtotal,mano_de_obra,total) VALUES (%s,%s,%s,%s,%s)",
-                    (Vehiculo_Matricula,nroEmpleados,subtotal,mano_de_obra,total)
-                )
+            presupuestos = Presupuestos.obtener_Presupuesto(Vehiculo_Matricula)
+
+            if not presupuestos or len(presupuestos) < 2:
+                return None
+
+            detalles = presupuestos[1] 
+
+            empleados = [fila[2] for fila in detalles]
+            nroEmpleados = len(set(empleados))
+
+            subtotal = 0
+            for fila in detalles[1:]:
+                print("\n",fila)
+                repuesto_nombre = fila[2]
+                cantidad = fila[4]
+
+                cursor.execute("SELECT precio_x_unidad FROM Repuesto WHERE nombre = %s", (repuesto_nombre,))
+                precio_repuesto = cursor.fetchone()
+
+                if precio_repuesto:
+                    subtotal += cantidad * precio_repuesto[0]
 
 
+            mano_de_obra = nroEmpleados * 1000
+            total = subtotal + mano_de_obra
+
+            cursor.execute("""
+                INSERT INTO Ficha_Tecnica (Vehiculo_Matricula, nroEmpleados, subtotal, mano_de_obra, total)
+                VALUES (%s, %s, %s, %s, %s)
+            """, (Vehiculo_Matricula, nroEmpleados, subtotal, mano_de_obra, total))
+            Presupuestos.eliminar_Todo_Presupuesto(Vehiculo_Matricula)
             conn.commit()
+            return True
+
         except Exception as e:
-            print("Error al insertar Presupuesto:", e)
+            conn.rollback()
+            return False
+
         finally:
             cursor.close()
             conn.close()
-        return id
 
     def obtener_FichaTecnica():
         with conectar_bd() as conn:
