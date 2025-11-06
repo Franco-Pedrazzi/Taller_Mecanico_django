@@ -9,13 +9,12 @@ def login_view(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
-
+        print()
         if user is not None:
             login(request, user)
             messages.success(request, f'Welcome back, {username}!')
             return redirect('/')
         else:
-            print(8)
             messages.error(request, 'Account does not exist. Please sign up.')
 
     form = AuthenticationForm()

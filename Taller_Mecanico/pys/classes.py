@@ -487,11 +487,11 @@ class FichaTecnica:
             nroEmpleados = len(set(empleados))
             #arreglar esto
             subtotal = 0
-            for fila in detalles[1:]:
-                print("\n",fila)
+            for fila in detalles:
+                print("\nadas",fila)
                 repuesto_nombre = fila[2]
                 cantidad = fila[4]
-
+                subtotal+=fila[5]
                 cursor.execute("SELECT precio_x_unidad FROM Repuesto WHERE nombre = %s", (repuesto_nombre,))
                 precio_repuesto = cursor.fetchone()
 
