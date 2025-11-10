@@ -61,7 +61,7 @@ def Herramienta_Vehiculos(request,cliente_id):
                 form.cleaned_data['color'],
                 form.cleaned_data['modelo']
             )
-        return HttpResponseRedirect(reverse('Vehiculo')) 
+        return redirect(f"/vehicle/{cliente_id}/")
     else:
         form = forms.FormularioVehiculo()
     

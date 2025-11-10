@@ -321,20 +321,24 @@ class Usuarios:
                 return resultado
 
 class Vehiculos:
-    def obtener_Vehiculo_filtrada(matricula,dni_cliente):
+    def obtener_Vehiculo_filtrada(matricula,id_cliente):
         with conectar_bd() as conn:
             with conn.cursor() as cursor:
+                cursor.execute("""select dni_cliente from Cliente where cod_cliente=%s """,(id_cliente,))
+                dni_cliente=cursor.fetchone()
                 cursor.execute("""
                     SELECT *
                     FROM Vehiculo
                     WHERE matricula LIKE %s,dni_cliente LIKE %s
-                """, (f"%{matricula}%",dni_cliente))
+                """, (f"%{matricula}%",dni_cliente[0]))
                 return cursor.fetchall()
 
-    def obtener_Vehiculo(dni_cliente):
+    def obtener_Vehiculo(id_cliente):
         with conectar_bd() as conn:
             with conn.cursor() as cursor:
-                cursor.execute("SELECT * FROM Vehiculo WHERE dni_cliente LIKE %s",(dni_cliente,))
+                cursor.execute("""select dni_cliente from Cliente where cod_cliente=%s """,(id_cliente,))
+                dni_cliente=cursor.fetchone()
+                cursor.execute("SELECT * FROM Vehiculo WHERE dni_cliente LIKE %s",dni_cliente)
                 return cursor.fetchall()
 
     def obtener_Vehiculos():
@@ -343,13 +347,15 @@ class Vehiculos:
                 cursor.execute("SELECT * FROM Vehiculo")
                 return cursor.fetchall()
 
-    def insertar_Vehiculo(matricula, color, modelo,dni_cliente):
+    def insertar_Vehiculo(matricula, color, modelo,id_cliente):
         with conectar_bd() as conn:
             with conn.cursor() as cursor:
+                cursor.execute("""select dni_cliente from Cliente where cod_cliente=%s """,(id_cliente,))
+                dni_cliente=cursor.fetchone()
                 cursor.execute("""
                     INSERT INTO Vehiculo
                     VALUES (%s, %s, %s, %s)
-                """, (matricula, color, modelo, dni_cliente))
+                """, (matricula, color, modelo, dni_cliente[0]))
                 conn.commit()
 
     def eliminar_Vehiculo(matricula):

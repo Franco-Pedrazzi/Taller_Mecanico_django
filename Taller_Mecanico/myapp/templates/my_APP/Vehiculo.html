@@ -44,20 +44,18 @@
             <td>{{ c.0 }}</td>
             <td>{{ c.1}}</td>
             <td>{{ c.2}}</td>
-            
+            <td>
                 {% if user.is_authenticated %}
-                <td>
-                <button onclick="editarCliente({{ c.0 }})">✏️</button>
+                <button type="button" onclick="editarCliente('{{ c.0 }}', '{{ c.1 }}', '{{ c.2 }}')">✏️</button>
                 <a href="/vehicle/{{ cliente_id }}/delete/{{ c.0 }}">🗑️</a>
-                <a href="/Presupuesto/{{ c.0 }}"><b>P</b></a>
-            </td>
+                <a href="/Presupuesto/{{ c.0 }}"><b>P</b></a>a>
                 {% endif %}
-            
+                
+            </td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
-
 <script>
 document.getElementById('filtro').addEventListener('keyup', function () {
     const filtro = this.value.toLowerCase();
@@ -83,15 +81,13 @@ function cancelarFormulario() {
     document.getElementById('btnAgregar').style.display = 'block';
 }
 
-function editarCliente(id, dni, nombre, apellido, telefono, direccion) {
+function editarCliente(nombre, precio_x_unidad, cantidad) {
     mostrarFormulario('editar');
-    document.getElementById('cliente_id').value = id;
+    document.getElementById('cliente_id').value = nombre;
 
-    document.querySelector('[name="dni"]').value = dni;
-    document.querySelector('[name="nombre"]').value = nombre;
-    document.querySelector('[name="apellido"]').value = apellido;
-    document.querySelector('[name="telefono"]').value = telefono;
-    document.querySelector('[name="direccion"]').value = direccion;
+    document.querySelector('[name="matricula"]').value = nombre;
+    document.querySelector('[name="color"]').value = precio_x_unidad;
+    document.querySelector('[name="modelo"]').value = cantidad;
 
     document.getElementById('btnGuardar').textContent = 'Actualizar';
 }
