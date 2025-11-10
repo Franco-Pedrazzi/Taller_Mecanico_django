@@ -22,6 +22,7 @@ urlpatterns = [
     path("Provedor/", Provedor.Herramienta_Provedor, name="Provedor") ,
     path("Repuesto/", Repuesto.Herramienta_Repuesto, name="Repuesto"), 
     path('vehicle/<int:cliente_id>/', cliente.Herramienta_Vehiculos, name='Vehiculo'),
+    path('vehicle/<int:cliente_id>/delete/<str:matricula>/', cliente.vehiculo_delete, name='vehiculo_delete'),
     path('logout/', views.Logout, name='logout'),
     path('login/', Syl.login_view, name ='login'),
 ] 

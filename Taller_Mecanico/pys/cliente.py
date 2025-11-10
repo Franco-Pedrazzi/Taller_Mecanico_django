@@ -71,10 +71,9 @@ def Herramienta_Vehiculos(request,cliente_id):
         Vehiculo.append(list(_Vehiculos))
     dueño= cliente.obtener_Cliente_filtrada(cliente_id)
     dueño=dueño[0]
-    print(dueño)
-    return render(request ,'my_APP/Vehiculo.html', {'form': form, 'Vehiculos': Vehiculo ,'dueño':f"{dueño[2]} {dueño[3]}"})
+    return render(request ,'my_APP/Vehiculo.html', {'form': form, 'Vehiculos': Vehiculo ,'dueño':f"{dueño[2]} {dueño[3]}",'cliente_id':cliente_id})
 
-def cliente_delete(request,matricula,cliente_id):
+def vehiculo_delete(request,matricula,cliente_id):
     Vehiculos.eliminar_Vehiculo(matricula)
     return redirect(f'/vehicle/{cliente_id}') 
 

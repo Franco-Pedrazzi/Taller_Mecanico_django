@@ -48,8 +48,8 @@
                 {% if user.is_authenticated %}
                 <td>
                 <button onclick="editarCliente({{ c.0 }})">✏️</button>
-                <a href="/persona/eliminar/{{ c.0 }}/Provedor">🗑️</a>
-                <a href="/Presupuesto/{{ c.0 }}">P</a>
+                <a href="/vehicle/{{ cliente_id }}/delete/{{ c.0 }}">🗑️</a>
+                <a href="/Presupuesto/{{ c.0 }}"><b>P</b></a>
             </td>
                 {% endif %}
             
