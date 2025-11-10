@@ -18,7 +18,6 @@
     <button type="button" id="cancelar" onclick="cancelarFormulario()">Cancelar</button>
     <button type="submit" id="btnGuardar">Guardar</button>
 </form>
-
 <hr>
 
 <label for="filtro">Filtro:</label>
@@ -89,8 +88,8 @@ function editarCliente(id, dni, nombre, apellido, telefono, direccion) {
     document.querySelector('[name="dni"]').value = dni;
     document.querySelector('[name="nombre"]').value = nombre;
     document.querySelector('[name="apellido"]').value = apellido;
-    document.querySelector('[name="telefono"]').value = telefono;
-    document.querySelector('[name="direccion"]').value = direccion;
+    document.querySelector('[name="tel"]').value = telefono;
+    document.querySelector('[name="dir"]').value = direccion;
 
     document.getElementById('btnGuardar').textContent = 'Actualizar';
 }

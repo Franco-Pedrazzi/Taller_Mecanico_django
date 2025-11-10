@@ -7,16 +7,24 @@ from pys.classes import Repuestos,Persona
 
 
 def Herramienta_Repuesto(request):
-
     if request.method == "POST":
         form = forms.FormularioRepuesto(request.POST)
-        if form.is_valid():
+        modo = request.POST.get("modo")
+        if form.is_valid() and modo == "agregar":
             Repuestos.insertar_repuesto(
                 form.cleaned_data['nombre'],
                 form.cleaned_data['precio_x_unidad'],
                 form.cleaned_data['cantidad']
             )
-            return HttpResponseRedirect(reverse('Repuesto'))  
+             
+        if modo == "editar" and form.is_valid():
+        
+            Repuestos.actualizar_repuesto(
+                form.cleaned_data['nombre'],
+                form.cleaned_data['precio_x_unidad'],
+                form.cleaned_data['cantidad']
+            )
+        return HttpResponseRedirect(reverse('Repuesto')) 
     else:
         form = forms.FormularioRepuesto()
     aux_Repuestos=Repuestos.obtener_Repuesto()

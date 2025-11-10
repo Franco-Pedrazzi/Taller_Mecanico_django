@@ -9,8 +9,10 @@ from pys.classes import cliente,Persona,Vehiculos
 def Herramienta_Cliente(request):
 
     if request.method == "POST":
+        
         form = forms.FormularioPersona(request.POST)
-        if form.is_valid():
+        modo = request.POST.get("modo")
+        if form.is_valid() and modo == "agregar":
             nuevo = cliente(
                 form.cleaned_data['dni'],
                 form.cleaned_data['nombre'],
@@ -18,7 +20,17 @@ def Herramienta_Cliente(request):
                 form.cleaned_data['tel'],
                 form.cleaned_data['dir']
             )
-            return HttpResponseRedirect(reverse('cliente'))  
+            
+        if modo == "editar" and form.is_valid():
+        
+            Persona.actualizar_Personas(
+                form.cleaned_data['dni'],
+                form.cleaned_data['nombre'],
+                form.cleaned_data['apellido'],
+                form.cleaned_data['tel'],
+                form.cleaned_data['dir']
+            )
+        return HttpResponseRedirect(reverse('cliente'))  
     else:
         form = forms.FormularioPersona()
     aux_clientes=cliente.obtener_Cliente()
@@ -33,16 +45,26 @@ def Herramienta_Vehiculos(request,cliente_id):
 
     if request.method == "POST":
         form = forms.FormularioVehiculo(request.POST)
-        if form.is_valid():
+        modo = request.POST.get("modo")
+        if form.is_valid() and modo == "agregar":
             Vehiculos.insertar_Vehiculo(
                 form.cleaned_data['matricula'],
                 form.cleaned_data['color'],
                 form.cleaned_data['modelo'],
                 cliente_id
             )
-            return redirect(f'/vehicle/{cliente_id}') 
+             
+        if modo == "editar" and form.is_valid():
+        
+            Vehiculos.actualizar_Vehiculo(
+                form.cleaned_data['matricula'],
+                form.cleaned_data['color'],
+                form.cleaned_data['modelo']
+            )
+        return HttpResponseRedirect(reverse('Vehiculo')) 
     else:
         form = forms.FormularioVehiculo()
+    
     aux_Vehiculos=Vehiculos.obtener_Vehiculo(cliente_id)
     Vehiculo=[]
     for _Vehiculos in aux_Vehiculos:

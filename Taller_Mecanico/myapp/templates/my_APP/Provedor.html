@@ -51,15 +51,14 @@
             <td>{{ c.5 }}</td>
             <td>
                 {% if user.is_authenticated %}
-                <button onclick="editarCliente({{ c.1 }})">✏️</button>
-                <a href="/persona/eliminar/{{ c.1 }}/Provedor">🗑️</a>
+                <button type="button" onclick="editarCliente({{ c.0 }}, '{{ c.1 }}', '{{ c.2 }}', '{{ c.3 }}', '{{ c.4 }}', '{{ c.5 }}')">✏️</button>
+                <a href="/persona/eliminar/{{ c.1 }}/Empleado">🗑️</a>
                 {% endif %}
             </td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
-
 <script>
 document.getElementById('filtro').addEventListener('keyup', function () {
     const filtro = this.value.toLowerCase();
@@ -92,8 +91,8 @@ function editarCliente(id, dni, nombre, apellido, telefono, direccion) {
     document.querySelector('[name="dni"]').value = dni;
     document.querySelector('[name="nombre"]').value = nombre;
     document.querySelector('[name="apellido"]').value = apellido;
-    document.querySelector('[name="telefono"]').value = telefono;
-    document.querySelector('[name="direccion"]').value = direccion;
+    document.querySelector('[name="tel"]').value = telefono;
+    document.querySelector('[name="dir"]').value = direccion;
 
     document.getElementById('btnGuardar').textContent = 'Actualizar';
 }

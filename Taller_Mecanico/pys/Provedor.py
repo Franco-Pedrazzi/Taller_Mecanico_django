@@ -10,7 +10,8 @@ def Herramienta_Provedor(request):
 
     if request.method == "POST":
         form = forms.FormularioPersona(request.POST)
-        if form.is_valid():
+        modo = request.POST.get("modo")
+        if form.is_valid() and modo == "agregar":
             nuevo = Provedores(
                 form.cleaned_data['dni'],
                 form.cleaned_data['nombre'],
@@ -18,9 +19,20 @@ def Herramienta_Provedor(request):
                 form.cleaned_data['tel'],
                 form.cleaned_data['dir']
             )
-            return HttpResponseRedirect(reverse('Provedor'))  
+ 
+        if modo == "editar" and form.is_valid():
+        
+            Persona.actualizar_Personas(
+                form.cleaned_data['dni'],
+                form.cleaned_data['nombre'],
+                form.cleaned_data['apellido'],
+                form.cleaned_data['tel'],
+                form.cleaned_data['dir']
+            )
+        return HttpResponseRedirect(reverse('Provedor')) 
     else:
         form = forms.FormularioPersona()
+
     aux_Provedors=Provedores.obtener_Provedor()
     Provedors=[]
     for _Provedor in aux_Provedors:
