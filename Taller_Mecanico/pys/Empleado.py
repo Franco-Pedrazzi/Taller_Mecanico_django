@@ -11,7 +11,7 @@ def Herramienta_Empleado(request):
         form = forms.FormularioPersona(request.POST)
         modo = request.POST.get("modo")
         if form.is_valid() and modo == "agregar":
-            nuevo = Empleado(
+            nuevo = Empleados(
                 form.cleaned_data['dni'],
                 form.cleaned_data['nombre'],
                 form.cleaned_data['apellido'],
