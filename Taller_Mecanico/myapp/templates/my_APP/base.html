@@ -13,31 +13,27 @@
 </head>
 
 <body>
-  <nav class="navbar bg-body-tertiary">
-   
+  <nav class="navbar navbar-taller">
     <div class="container-fluid">
       <a class="navbar-brand" onclick="location.href='/'">
-        <img src="/static/images/logo.webp" alt="Logo" width="50" height="50"
+        <img src="/static/images/logo.png" alt="Logo" width="50" height="50"
           class="d-inline-block">
-        Taller Mecanico
+        Tu Taller Mecanico
       </a>
+  <div class="d-flex">
 
-<div class="d-flex gap-2">
-
-
-    <button type="button" class="btn btn-light" onclick="location.href='/cliente'">Clientes</button>
-    <button type="button" class="btn btn-light" onclick="location.href='/Empleado'">Empleados</button>
-    <button type="button" class="btn btn-light" onclick="location.href='/Ficha_Tecnica'">Ficha Tecnica</button>
-    <button type="button" class="btn btn-light" onclick="location.href='/Provedor'">Provedor</button>
-    <button type="button" class="btn btn-light" onclick="location.href='/Repuesto'">Repuesto</button>
-    <br>
-    {% if not user.is_authenticated %}
-    <button type="button" class="btn btn-dark" onclick="location.href='/login'">login</button>
-    {% else %}
-    <h4>Bienvenido/a {{request.user.username}}  </h4><button type="button" class="btn btn-danger" onclick="location.href='/logout'">Logout</button>
-    {% endif %}
-</div>
-
+      <br>
+      {% if not user.is_authenticated %}
+      <button type="button" class="btn btn-dark" onclick="location.href='/login'">login</button>
+      {% else %}
+      <button type="button" class="btn btn-light" onclick="location.href='/cliente'">Clientes</button>
+      <button type="button" class="btn btn-light" onclick="location.href='/Empleado'">Empleados</button>
+      <button type="button" class="btn btn-light" onclick="location.href='/Ficha_Tecnica'">Ficha Tecnica</button>
+      <button type="button" class="btn btn-light" onclick="location.href='/Provedor'">Provedor</button>
+      <button type="button" class="btn btn-light" onclick="location.href='/Repuesto'">Repuesto</button>
+      <h4>Bienvenido/a {{request.user.username}}  </h4><button type="button" class="btn btn-danger" onclick="location.href='/logout'">Logout</button>
+      {% endif %}
+  </div>
 
   </div>
     <div>
@@ -45,7 +41,6 @@
   </nav>
 
   {% block body %}{% endblock %}
-
 
   <footer>
     <p>&copy; 2025 Taller mecanicot. Todos los derechos reservados.</p>
