@@ -1,40 +1,138 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #262626 !important;
+}
 
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-        }
-        h1 {
-            font-size: 24px;
-        }
-        form {
-            margin-top: 15px;
-            border: 1px solid #ccc;
-            padding: 15px;
-            border-radius: 10px;
-        }
-        input, select {
-            display: block;
-            margin: 8px 0;
-            padding: 6px;
-            width: 100%;
-            max-width: 300px;
-        }
-        button {
-            margin-top: 10px;
-        }
-        table {
-            border-collapse: collapse;
-            margin-top: 20px;
-            width: 100%;
-        }
-        th, td {
-            border: 1px solid #ccc;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #eee;
-        }
-        .acciones button {
-            margin-right: 5px;
-        }
+.navbar{
+    padding: 0% !important;
+}
+
+h1 {
+    font-size: 24px;
+}
+
+form {
+    margin-top: 15px;
+    border: 1px solid #ccc;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+input, select {
+    display: block;
+    margin: 8px 0;
+    padding: 6px;
+    width: 100%;
+    max-width: 300px;
+}
+
+button {
+    margin-top: 10px;
+}
+
+table {
+    border-collapse: collapse;
+    margin-top: 20px;
+    width: 100%;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #eee;
+}
+
+.acciones button {
+    margin-right: 5px;
+}
+
+.navbar>.container, .navbar>.container-fluid, .navbar>.container-lg, .navbar>.container-md, .navbar>.container-sm, .navbar>.container-xl, .navbar>.container-xxl {
+    background-color: #000000 !important;
+}
+
+.navbar-brand{
+    color: #ffffff !important;
+}
+
+.card-row {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    padding: 50px 20px;
+    flex-wrap: wrap; 
+}
+
+.card-container {
+    flex: 1 1 30%;
+    max-width: 360px;
+    display: flex;
+    justify-content: center;
+}
+
+.card {
+    background: linear-gradient(145deg, #2c2c2c, #4e4e4e);
+    border-radius: 20px;
+    padding: 30px 25px;
+    width: 100%;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+    color: #c9c9c9;
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card h4 {
+    font-size: 1.6rem;
+    margin-bottom: 15px;
+    font-weight: 700;
+    color: #898989; 
+    text-shadow: 0 0 5px #666666;
+}
+
+.card p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #ddd;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba(255, 215, 0, 0.5);
+    cursor: pointer;
+}
+
+.banner {
+  position: relative;
+  background-image: url('../static/images/taller.png');
+  background-size: cover;
+  background-position: center;
+  height: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 40px;
+  overflow: hidden;
+}
+
+.banner-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.5); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.banner-overlay h1 {
+  position: relative;
+  color: white;
+  font-weight: 700;
+  font-size: 2.5rem;
+  font-family: 'Poppins', sans-serif;
+  z-index: 10;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+}
