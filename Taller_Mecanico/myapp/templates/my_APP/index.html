@@ -2,24 +2,34 @@
 {% load static %}
 
 {% block body %}
-<div class="container mt-5">
+<div>
+    <div class="banner">
+        <div class="banner-overlay">
+            <h1>Tu Taller Mecánico</h1>
+        </div>
+    </div>
     <div class="text-center mb-5">
-        <h1 class="display-4 fw-bold text-primary">Taller Mecanico</h1>
         <p class="lead text-muted">Reparaciones, mantenimiento y servicio de excelencia para tu vehículo.</p>
     </div>
 
-    <div class="row text-center">
-        <div class="col-md-4 mb-4">
-            <h4 class="fw-bold">Reparaciones Generales</h4>
-            <p>Desde motores hasta transmisiones, tu auto queda como nuevo.</p>
+    <div class="card-row">
+        <div class="card-container">
+            <div class="card">
+                <h4>Reparaciones Generales</h4>
+                <p>Desde motores hasta transmisiones, tu auto queda como nuevo.</p>
+            </div>
         </div>
-        <div class="col-md-4 mb-4">
-            <h4 class="fw-bold">Cambio de Aceite</h4>
-            <p>Usamos los mejores productos para prolongar la vida de tu motor.</p>
+        <div class="card-container">
+            <div class="card">
+                <h4>Cambio de Aceite</h4>
+                <p>Usamos los mejores productos para prolongar la vida de tu motor.</p>
+            </div>
         </div>
-        <div class="col-md-4 mb-4">
-            <h4 class="fw-bold">Sistema de Frenos</h4>
-            <p>Seguridad ante todo. Revisión y mantenimiento completo de frenos.</p>
+        <div class="card-container">
+            <div class="card">
+                <h4>Sistema de Frenos</h4>
+                <p>Seguridad ante todo. Revisión y mantenimiento completo de frenos.</p>
+            </div>
         </div>
     </div>
 
