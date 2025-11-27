@@ -1,3 +1,4 @@
+/* class */
 body {
     font-family: Arial, sans-serif;
     background-color: #262626 !important;
@@ -167,23 +168,6 @@ th {
     cursor: pointer;
 }
 
-#tablaClientes td{
-    background-color: #000000 !important;
-    color: #ffffff !important;
-}
-
-#tablaClientes th{
-    background-color: #b0b0b0 !important;
-    border: #000000;
-}
-
-#formCliente{
-    background-color: #1a1a1a !important;
-    color: #ffffff !important;
-    padding: 20px !important;
-    border-radius: 10px !important;
-}
-
 .btn.mecanico {
     background: linear-gradient(180deg, #111111 0%, #000000 100%) !important;
     color: #ffffff !important;
@@ -275,4 +259,22 @@ a.btn.mecanico {
     align-items: center !important;
     margin-right: 15px !important;
     font-weight: 600 !important;
+}
+
+/* id */
+#tablaClientes td{
+    background-color: #000000 !important;
+    color: #ffffff !important;
+}
+
+#tablaClientes th{
+    background-color: #b0b0b0 !important;
+    border: #000000;
+}
+
+#formCliente{
+    background-color: #1a1a1a !important;
+    color: #ffffff !important;
+    padding: 20px !important;
+    border-radius: 10px !important;
 }
