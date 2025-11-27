@@ -89,7 +89,7 @@ th {
     font-size: 1.6rem;
     margin-bottom: 15px;
     font-weight: 700;
-    color: #898989; 
+    color: #ffffff; 
     text-shadow: 0 0 5px #666666;
 }
 
@@ -99,10 +99,9 @@ th {
     color: #ddd;
 }
 
-.card:hover {
+.card2:hover {
     transform: translateY(-8px);
     box-shadow: 0 12px 25px rgba(255, 215, 0, 0.5);
-    cursor: pointer;
 }
 
 .banner {
@@ -135,4 +134,138 @@ th {
   font-family: 'Poppins', sans-serif;
   z-index: 10;
   text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+}
+
+.text-muted {
+    --bs-text-opacity: 1;
+    color: rgb(255 255 255 / 75%) !important;
+}
+
+.lead{
+    --bs-text-opacity: 1;
+    color: rgb(255 255 255 / 75%) !important;
+}
+
+.fw-bold {
+    font-weight: 700 !important;
+}
+
+.text-center{
+    color: #ffffff !important;
+}
+
+.solicitud{
+    background-color: rgb(91, 91, 91) !important;
+    color: #ffffff !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+.solicitud:hover{
+    transform: translateY(-8px);
+    background-color: rgb(60, 60, 60) !important;
+    box-shadow: 0 12px 25px rgba(255, 215, 0, 0.5);
+    cursor: pointer;
+}
+
+#tablaClientes td{
+    background-color: #000000 !important;
+    color: #ffffff !important;
+}
+
+#tablaClientes th{
+    background-color: #b0b0b0 !important;
+    border: #000000;
+}
+
+.btn.mecanico {
+    background: linear-gradient(180deg, #111111 0%, #000000 100%) !important;
+    color: #ffffff !important;
+    border: 2px solid rgba(255,165,0,0.12) !important;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.45), inset 0 -2px 0 rgba(255,255,255,0.02) !important;
+    padding: 0.62rem 1.1rem !important;
+    border-radius: 10px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.6px !important;
+    font-size: 0.95rem !important;
+    transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    vertical-align: middle !important;
+    cursor: pointer !important;
+    outline: none !important;
+    margin-right: 10px
+}
+
+.btn.mecanico:hover,
+.btn.mecanico:focus {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.55), 0 0 0 6px rgba(255,165,0,0.06) !important;
+    background: linear-gradient(180deg, #262626 0%, #0b0b0b 100%) !important;
+    text-decoration: none !important;
+}
+
+.btn.mecanico:active {
+    transform: translateY(-1px) scale(0.995) !important;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.5) inset !important;
+}
+
+.btn.mecanico.btn-sm {
+    padding: 0.38rem 0.7rem !important;
+    font-size: 0.82rem !important;
+    border-radius: 8px !important;
+}
+.btn.mecanico.btn-lg {
+    padding: 0.85rem 1.4rem !important;
+    font-size: 1.05rem !important;
+    border-radius: 12px !important;
+}
+
+.btn.mecanico.primary {
+    background: linear-gradient(180deg, #ff9a00 0%, #ff6a00 100%) !important;
+    color: #1a1a1a !important;
+    border-color: rgba(255,255,255,0.06) !important;
+    box-shadow: 0 8px 22px rgba(255,106,0,0.12) !important;
+}
+.btn.mecanico.secondary {
+    background: linear-gradient(180deg, #2b2b2b 0%, #131313 100%) !important;
+    color: #ffffff !important;
+    border-color: rgba(255,165,0,0.09) !important;
+}
+
+.btn.mecanico .icon {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 1.05em !important;
+    opacity: 0.98 !important;
+}
+
+.btn-row {
+    display: flex !important;
+    gap: 12px !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.btn.mecanico:focus-visible {
+    box-shadow: 0 0 0 4px rgba(255,165,0,0.16) !important;
+}
+
+button.btn.mecanico,
+a.btn.mecanico {
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    border-style: solid !important;
+}
+
+.bienvenida {
+    display: flex !important;
+    align-items: center !important;
+    margin-right: 15px !important;
+    font-weight: 600 !important;
 }

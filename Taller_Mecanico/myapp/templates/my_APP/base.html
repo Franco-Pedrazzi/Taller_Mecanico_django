@@ -24,14 +24,15 @@
 
       <br>
       {% if not user.is_authenticated %}
-      <button type="button" class="btn btn-dark" onclick="location.href='/login'">login</button>
+      <button type="button" class="btn mecanico btn-dark" onclick="location.href='/login'">login</button>
       {% else %}
-      <button type="button" class="btn btn-light" onclick="location.href='/cliente'">Clientes</button>
-      <button type="button" class="btn btn-light" onclick="location.href='/Empleado'">Empleados</button>
-      <button type="button" class="btn btn-light" onclick="location.href='/Ficha_Tecnica'">Ficha Tecnica</button>
-      <button type="button" class="btn btn-light" onclick="location.href='/Provedor'">Provedor</button>
-      <button type="button" class="btn btn-light" onclick="location.href='/Repuesto'">Repuesto</button>
-      <h4>Bienvenido/a {{request.user.username}}  </h4><button type="button" class="btn btn-danger" onclick="location.href='/logout'">Logout</button>
+      <button type="button" class="btn mecanico  btn-light" onclick="location.href='/cliente'">Clientes</button>
+      <button type="button" class="btn mecanico  btn-light" onclick="location.href='/Empleado'">Empleados</button>
+      <button type="button" class="btn mecanico  btn-light" onclick="location.href='/Ficha_Tecnica'">Ficha Tecnica</button>
+      <button type="button" class="btn mecanico  btn-light" onclick="location.href='/Provedor'">Provedor</button>
+      <button type="button" class="btn mecanico  btn-light" onclick="location.href='/Repuesto'">Repuesto</button>
+      <h4 class="bienvenida" style="color: #ffffff;">Bienvenido/a {{request.user.username}}</h4>
+      <button type="button" class="btn mecanico  btn-danger" onclick="location.href='/logout'">Logout</button>
       {% endif %}
   </div>
 
