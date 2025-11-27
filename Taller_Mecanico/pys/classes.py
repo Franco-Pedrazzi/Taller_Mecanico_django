@@ -14,8 +14,8 @@ def conectar_bd():
 class Persona:
     def __init__(self, dni, nombre, apellido, tel, dir):
         self.dni = dni
-        self.nombre = nombre
-        self.apellido = apellido
+        self.nombre = nombre.capitalize()
+        self.apellido = apellido.capitalize()
         self.tel = tel
         self.dir = dir
 
@@ -55,7 +55,7 @@ class Persona:
         try:
             cursor.execute("""
                 UPDATE Persona 
-                SET nombre=%s, apellido=%s, tel=%s, dir=%s 
+                SET dni=%s nombre=%s, apellido=%s, tel=%s, dir=%s 
                 WHERE dni=%s
             """, (nombre, apellido, tel, dir, dni))
             conn.commit()
@@ -207,8 +207,9 @@ class Repuestos:
     def obtener_Repuesto_filtrada(nombre):
         with conectar_bd() as conn:
             with conn.cursor() as cursor:
+                
                 cursor.execute("""
-                    SELECT nombre, precio_x_unidad, cantidad
+                    SELECT nombre, provedor_id, precio_x_unidad, cantidad
                     FROM Repuesto
                     WHERE nombre LIKE %s
                 """, (f"%{nombre}%",))
@@ -217,16 +218,16 @@ class Repuestos:
     def obtener_Repuesto():
         with conectar_bd() as conn:
             with conn.cursor() as cursor:
-                cursor.execute("SELECT nombre, precio_x_unidad, cantidad FROM Repuesto")
+                cursor.execute("SELECT nombre,provedor_id, precio_x_unidad, cantidad FROM Repuesto")
                 return cursor.fetchall()
 
-    def insertar_repuesto(nombre, precio_x_unidad, cantidad):
+    def insertar_repuesto(nombre,provedor, precio_x_unidad, cantidad):
         with conectar_bd() as conn:
             with conn.cursor() as cursor:
                 cursor.execute("""
-                    INSERT INTO Repuesto (nombre, precio_x_unidad, cantidad)
-                    VALUES (%s, %s, %s)
-                """, (nombre, precio_x_unidad, cantidad))
+                    INSERT INTO Repuesto (nombre,provedor_id, precio_x_unidad, cantidad)
+                    VALUES (%s, %s, %s, %s)
+                """, (nombre,provedor, precio_x_unidad, cantidad))
                 conn.commit()
 
     def eliminar_repuesto(nombre):

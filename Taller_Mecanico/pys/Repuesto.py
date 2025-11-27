@@ -12,7 +12,8 @@ def Herramienta_Repuesto(request):
         modo = request.POST.get("modo")
         if form.is_valid() and modo == "agregar":
             Repuestos.insertar_repuesto(
-                form.cleaned_data['nombre'],
+                form.cleaned_data['nombre'].capitalize(),
+                form.cleaned_data['Provedor'],
                 form.cleaned_data['precio_x_unidad'],
                 form.cleaned_data['cantidad']
             )

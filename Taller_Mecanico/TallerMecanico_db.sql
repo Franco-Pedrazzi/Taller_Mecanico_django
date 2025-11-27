@@ -3,7 +3,7 @@ CREATE DATABASE `TallerMecanico`;
 USE `TallerMecanico`;
 
 CREATE TABLE `Persona` (
-  `dni` varchar(10) PRIMARY KEY NOT NULL ON UPDATE CASCADE,
+  `dni` varchar(10) PRIMARY KEY NOT NULL,
   `nombre` varchar(10) NOT NULL,
   `apellido` varchar(10) NOT NULL,
   `tel` varchar(10),
@@ -22,7 +22,11 @@ CREATE TABLE `Empleado` (
 
 CREATE TABLE `Provedor` (
   `cod_Provedor` int auto_increment PRIMARY KEY,
-  `dni_Provedor` varchar(10)  NOT NULL
+  `dni_Provedor` varchar(10)  NOT NULL,
+  foreign key (`dni_Provedor`)
+    references Persona (`dni`)
+    ON DELETE CASCADE
+    on update cascade
 );
 
 
@@ -58,8 +62,10 @@ CREATE TABLE `Vehiculo` (
 
 CREATE TABLE `Repuesto` (
   `nombre` varchar(25) PRIMARY KEY,
+  `provedor_id` int,
   `precio_x_unidad` float,
-  `cantidad` int
+  `cantidad` int,
+  FOREIGN KEY (provedor_id) REFERENCES Provedor(cod_Provedor) ON DELETE CASCADE
 );
 
 CREATE TABLE `Reparaciones` (
