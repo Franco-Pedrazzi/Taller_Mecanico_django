@@ -177,6 +177,13 @@ th {
     border: #000000;
 }
 
+#formCliente{
+    background-color: #1a1a1a !important;
+    color: #ffffff !important;
+    padding: 20px !important;
+    border-radius: 10px !important;
+}
+
 .btn.mecanico {
     background: linear-gradient(180deg, #111111 0%, #000000 100%) !important;
     color: #ffffff !important;
