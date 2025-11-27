@@ -3,7 +3,7 @@ CREATE DATABASE `TallerMecanico`;
 USE `TallerMecanico`;
 
 CREATE TABLE `Persona` (
-  `dni` varchar(10) PRIMARY KEY NOT NULL,
+  `dni` varchar(10) PRIMARY KEY NOT NULL ON UPDATE CASCADE,
   `nombre` varchar(10) NOT NULL,
   `apellido` varchar(10) NOT NULL,
   `tel` varchar(10),

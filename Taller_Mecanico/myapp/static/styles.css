@@ -1,3 +1,20 @@
+/*variables*/
+:root{
+    --bg-dark: #0f0f0f;
+    --panel: #161616;
+    --muted: #b0b0b0;
+    --accent: #ff9a00;
+    --accent-dark: #d86f00;
+    --text: #f5f5f5;
+    --glass: rgba(255,255,255,0.03);
+    --border: rgba(255,255,255,0.06);
+    --shadow: rgba(0,0,0,0.6);
+    --success: #27ae60;
+    --danger: #e74c3c;
+    --radius: 10px;
+    --transition: 180ms cubic-bezier(.2,.9,.3,1);
+}
+
 /* class */
 body {
     font-family: Arial, sans-serif;
@@ -262,7 +279,7 @@ a.btn.mecanico {
 }
 
 /* id */
-#tablaClientes td{
+/* #tablaClientes td{
     background-color: #000000 !important;
     color: #ffffff !important;
 }
@@ -277,4 +294,108 @@ a.btn.mecanico {
     color: #ffffff !important;
     padding: 20px !important;
     border-radius: 10px !important;
+} */
+
+#tablaClientes{
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: linear-gradient(180deg,var(--panel), rgba(22,22,22,0.95));
+    border-radius: calc(var(--radius) + 2px);
+    overflow: hidden;
+    box-shadow: 0 6px 24px var(--shadow);
+}
+
+/* Encabezados */
+#tablaClientes th{
+    background: linear-gradient(180deg, rgba(176,176,176,0.12), rgba(176,176,176,0.06));
+    color: #0b0b0b;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    font-size: 0.82rem;
+    padding: 14px 16px;
+    border-bottom: 2px solid rgba(0,0,0,0.45);
+    text-align: left;
+    position: sticky;
+    top: 0;
+    backdrop-filter: blur(4px);
+}
+
+/* Celdas */
+#tablaClientes td{
+    background-color: transparent; 
+    color: var(--text);
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    vertical-align: middle;
+    font-size: 0.95rem;
+}
+
+#tablaClientes .status{
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+}
+
+#tablaClientes .btn{
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+}
+
+#formCliente{
+    background: linear-gradient(180deg, rgba(26,26,26,0.96), rgba(18,18,18,0.98));
+    color: var(--text);
+    padding: 22px;
+    border-radius: var(--radius);
+    border-left: 4px solid rgba(255,154,0,0.14);
+    box-shadow: 0 12px 36px rgba(0,0,0,0.6);
+    max-width: 720px;
+}
+
+/* Inputs dentro del form */
+#formCliente input,
+#formCliente textarea,
+#formCliente select,
+#formCliente .form-control {
+    width: 100%;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.04);
+    color: var(--text);
+    padding: 10px 12px;
+    border-radius: 8px;
+    transition: box-shadow var(--transition), border-color var(--transition), transform var(--transition);
+    font-size: 0.95rem;
+    outline: none;
+    margin-bottom: 12px;
+}
+
+/* Focus visible accesible */
+#formCliente input:focus,
+#formCliente textarea:focus,
+#formCliente select:focus,
+#formCliente .form-control:focus{
+    border-color: var(--accent);
+    box-shadow: 0 6px 20px rgba(216,111,0,0.12), 0 0 0 6px rgba(255,154,0,0.05);
+    transform: translateY(-1px);
+}
+
+/* Labels */
+#formCliente label{
+    display: block;
+    margin-bottom: 6px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+}
+
+/* Footer / acciones del formulario */
+#formCliente .form-actions{
+    display:flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 6px;
 }
