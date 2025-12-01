@@ -172,6 +172,11 @@ th {
     color: #ffffff !important;
 }
 
+.icon-invert--tweaked {
+  filter: invert(100%) saturate(120%) brightness(95%) hue-rotate(0deg);
+  transition: filter 200ms ease;
+}
+
 .solicitud{
     background-color: rgb(91, 91, 91) !important;
     color: #ffffff !important;
@@ -278,6 +283,18 @@ a.btn.mecanico {
     font-weight: 600 !important;
 }
 
+footer {
+    margin-top: auto;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) rgba(38, 38, 38, 0.5), rgba(28, 20, 15, 1));  
+    color: #dcdcdc;
+    text-align: center;
+    padding: 10px 0;
+}
+
+
 /* id */
 /* #tablaClientes td{
     background-color: #000000 !important;
@@ -300,7 +317,7 @@ a.btn.mecanico {
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
-    background: linear-gradient(180deg,var(--panel), rgba(22,22,22,0.95));
+    background: rgba(15, 15, 15, 0.95);
     border-radius: calc(var(--radius) + 2px);
     overflow: hidden;
     box-shadow: 0 6px 24px var(--shadow);
@@ -309,7 +326,7 @@ a.btn.mecanico {
 /* Encabezados */
 #tablaClientes th{
     background: linear-gradient(180deg, rgba(176,176,176,0.12), rgba(176,176,176,0.06));
-    color: #0b0b0b;
+    color: #ffffff;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.6px;
@@ -349,7 +366,7 @@ a.btn.mecanico {
     color: var(--text);
     padding: 22px;
     border-radius: var(--radius);
-    border-left: 4px solid rgba(255,154,0,0.14);
+    border-left: 4px solid rgba(255, 153, 0, 0.14);
     box-shadow: 0 12px 36px rgba(0,0,0,0.6);
     max-width: 720px;
 }
@@ -391,7 +408,6 @@ a.btn.mecanico {
     letter-spacing: 0.3px;
 }
 
-/* Footer / acciones del formulario */
 #formCliente .form-actions{
     display:flex;
     gap: 12px;
