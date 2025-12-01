@@ -15,7 +15,6 @@ class FormularioVehiculo(forms.Form):
   modelo=forms.CharField(required=True)
 
 class FormularioRepuesto(forms.Form):
-  print(Provedores.obtener_Provedor())
   Provedor = forms.ChoiceField(required=True)
   nombre=forms.CharField(required=True)
   precio_x_unidad=forms.IntegerField(required=True)
