@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from pys.classes import Repuestos,Provedores
+from pys.classes import Repuestos,Provedores, Empleados
 class FormularioPersona(forms.Form):
   dni=forms.CharField(required=True)
   nombre=forms.CharField(required=True)
@@ -24,7 +24,7 @@ class FormularioRepuesto(forms.Form):
 class FormularioReparacion(forms.Form):
   repuesto=forms.ChoiceField(choices= [(repuesto[0],repuesto[0]) for repuesto in Repuestos.obtener_Repuesto()], required=True)
   cantidad=forms.IntegerField(required=True)
-  legajo=forms.CharField(required=True)
+  legajo=forms.ChoiceField(choices= [(empleado[0],f"{empleado[2]} {empleado[3]} ({empleado[0]})") for empleado in Empleados.obtener_Empleado()], required=True)
   precio=forms.IntegerField(required=True)
 
 
