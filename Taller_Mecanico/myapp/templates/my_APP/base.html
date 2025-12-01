@@ -31,7 +31,7 @@
       <button type="button" class="btn mecanico  btn-light" onclick="location.href='/Ficha_Tecnica'">Ficha Tecnica</button>
       <button type="button" class="btn mecanico  btn-light" onclick="location.href='/Provedor'">Provedor</button>
       <button type="button" class="btn mecanico  btn-light" onclick="location.href='/Repuesto'">Repuesto</button>
-      <h4 class="bienvenida" style="color: #ffffff;">Bienvenido/a {{request.user.username}}</h4>
+      <h4 class="bienvenida" style="color: #ffffff; ">Bienvenido/a {{request.user.username}}</h4>
       <button type="button" class="btn mecanico  btn-danger" onclick="location.href='/logout'">Logout</button>
       {% endif %}
   </div>
@@ -43,8 +43,8 @@
 
   {% block body %}{% endblock %}
 
-  <footer>
-    <p>&copy; 2025 Taller mecanicot. Todos los derechos reservados.</p>
+  <footer style="margin: 20px; text-align: center; background-color: #333333; padding: 10px 0;">
+    <p style="color: #ffffff; font-family: 'Courier New', Courier, monospace;">Copyright &copy; 202X-2025 Nechicime INC. Todos los derechos reservados. <i>(mentira)</i></p>
   </footer>
 </body>
 

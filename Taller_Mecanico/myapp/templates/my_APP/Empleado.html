@@ -2,7 +2,33 @@
 {% load static %}
 {% block body %}
 <h1>Empleados</h1>
-    <link rel="stylesheet" href="{% static 'styles.css' %}">
+<link rel="stylesheet" href="{% static 'styles.css' %}">
+<style>
+    #tablaClientes th, #tablaClientes td {
+        padding: 10px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+    #tablaClientes th {
+        background-color: #333333;
+        color: white;
+    }
+    label {
+        margin-right: 10px;
+        font-family: Arial, sans-serif;
+        font-weight: bold;
+        color: white;
+        text-transform: uppercase;
+        text-indent: initial;
+        letter-spacing: 1px;
+        text-decoration: underline;
+    }
+    h1 {
+        color: white !important;
+        margin-bottom: 20px;
+        font-family: Arial, sans-serif;
+    }
+</style>
 {% if user.is_authenticated %}
 <button id="btnAgregar" 
     onclick="mostrarFormulario('agregar')">Agregar</button>

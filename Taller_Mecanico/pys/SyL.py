@@ -6,16 +6,25 @@ from django.contrib.auth.hashers import make_password
 def login_view(request):
 
     if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
-        print()
-        if user is not None:
-            login(request, user)
-            messages.success(request, f'Welcome back, {username}!')
-            return redirect('/')
-        else:
-            messages.error(request, 'Account does not exist. Please sign up.')
+        # Formulario con los datos del POST
+        form = AuthenticationForm(request, data=request.POST)
 
-    form = AuthenticationForm()
-    return render(request, 'my_APP/login.html', {'form': form, 'title': 'Log in'})
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            messages.success(request, f'Welcome back, {user.username}!')
+            return redirect('/')
+
+        # si el form no es valido => mostrar errores
+        messages.error(request, 'Invalid username or password.')
+        return render(request, 'my_APP/login.html', {
+            'form': form,
+            'title': 'Log in'
+        })
+
+    else:
+        form = AuthenticationForm()
+        return render(request, 'my_APP/login.html', {
+            'form': form,
+            'title': 'Log in'
+        })
