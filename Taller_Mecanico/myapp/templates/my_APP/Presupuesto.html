@@ -103,17 +103,6 @@ function cancelarFormulario() {
     document.getElementById('btnAgregar').style.display = 'block';
 }
 
-function editarCliente(id, dni, nombre, apellido, telefono, direccion) {
-    mostrarFormulario('editar');
-    document.getElementById('cliente_id').value = id;
 
-    document.querySelector('[name="dni"]').value = dni;
-    document.querySelector('[name="nombre"]').value = nombre;
-    document.querySelector('[name="apellido"]').value = apellido;
-    document.querySelector('[name="telefono"]').value = telefono;
-    document.querySelector('[name="direccion"]').value = direccion;
-
-    document.getElementById('btnGuardar').textContent = 'Actualizar';
-}
 </script>
 {% endblock %}

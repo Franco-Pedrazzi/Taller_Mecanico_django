@@ -5,12 +5,12 @@
 <h1>Lista de Repuestos</h1>
 <link rel="stylesheet" href="{% static 'styles.css' %}">
 <style>
-    #tablaRepuestos th, #tablaRepuestos td {
+    #tablaClientes th, #tablaClientes td {
         padding: 10px;
         border: 1px solid #ddd;
         text-align: left;
     }
-    #tablaRepuestos th {
+    #tablaClientes th {
         background-color: #333333;
         color: white;
     }
@@ -41,6 +41,8 @@
     <input type="hidden" id="modo" name="modo" value="agregar">
     <input type="hidden" id="cliente_id" name="cliente_id">
 
+    <input type="hidden" style="display:none;" name="nombre_viejo">
+
     <button type="button" id="cancelar" onclick="cancelarFormulario()">Cancelar</button>
     <button type="submit" id="btnGuardar">Guardar</button>
 </form>
@@ -53,9 +55,10 @@
 <input type="text" id="filtro" placeholder="nombre del repuesto">
 <button id="btnFiltrar">🔍</button>
 
-<table id="tablaRepuestos">
+<table id="tablaClientes">
     <thead>
         <tr>
+            <th>Nombre</th>
             <th>Nombre</th>
             <th>Precio por unidad</th>
             <th>Cantidad</th>
@@ -70,9 +73,10 @@
             <td>{{ c.0 }}</td>
             <td>{{ c.1 }}</td>
             <td>{{ c.2 }}</td>
+            <td>{{ c.3 }}</td>
             <td>
                 {% if user.is_authenticated %}
-                <button type="button" onclick="editarCliente('{{ c.0 }}', '{{ c.1 }}', '{{ c.2 }}')">✏️</button>
+                <button type="button" onclick="editarCliente('{{ c.0 }}', '{{ c.2 }}', '{{ c.3 }}')">✏️</button>
                 <a href="/Repuesto/eliminar/{{ r.0 }}/">🗑️</a>
                 {% endif %}
             </td>
@@ -109,6 +113,7 @@ function editarCliente(nombre, precio_x_unidad, cantidad) {
     mostrarFormulario('editar');
     document.getElementById('cliente_id').value = nombre;
 
+    document.querySelector('[name="nombre_viejo"]').value = nombre;
     document.querySelector('[name="nombre"]').value = nombre;
     document.querySelector('[name="precio_x_unidad"]').value = precio_x_unidad;
     document.querySelector('[name="cantidad"]').value = cantidad;

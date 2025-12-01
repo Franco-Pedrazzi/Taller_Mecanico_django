@@ -24,6 +24,7 @@ def Herramienta_Cliente(request):
         if modo == "editar" and form.is_valid():
         
             Persona.actualizar_Personas(
+                request.POST.get("dni_viejo"),
                 form.cleaned_data['dni'],
                 form.cleaned_data['nombre'],
                 form.cleaned_data['apellido'],
@@ -57,6 +58,7 @@ def Herramienta_Vehiculos(request,cliente_id):
         if modo == "editar" and form.is_valid():
         
             Vehiculos.actualizar_Vehiculo(
+                request.POST.get("matricula_vieja"),
                 form.cleaned_data['matricula'],
                 form.cleaned_data['color'],
                 form.cleaned_data['modelo']

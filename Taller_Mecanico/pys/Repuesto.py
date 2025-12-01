@@ -21,6 +21,7 @@ def Herramienta_Repuesto(request):
         if modo == "editar" and form.is_valid():
         
             Repuestos.actualizar_repuesto(
+                request.POST.get("nombre_viejo"),
                 form.cleaned_data['nombre'],
                 form.cleaned_data['precio_x_unidad'],
                 form.cleaned_data['cantidad']

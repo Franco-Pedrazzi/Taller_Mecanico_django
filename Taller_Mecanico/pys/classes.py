@@ -49,15 +49,16 @@ class Persona:
             conn.close()
 
     @staticmethod
-    def actualizar_Personas(dni, nombre, apellido, tel, dir):
+    def actualizar_Personas(dni_viejo, dni, nombre, apellido, tel, dir):
         conn = conectar_bd()
         cursor = conn.cursor()
+        
         try:
             cursor.execute("""
                 UPDATE Persona 
-                SET dni=%s nombre=%s, apellido=%s, tel=%s, dir=%s 
+                SET dni=%s, nombre=%s, apellido=%s, tel=%s, dir=%s 
                 WHERE dni=%s
-            """, (nombre, apellido, tel, dir, dni))
+            """, (dni,nombre, apellido, tel, dir, dni_viejo))
             conn.commit()
         except Exception as e:
             print("Error al actualizar Persona:", e)
@@ -128,7 +129,7 @@ class Empleados(Persona):
                 (`password`, `last_login`, `is_superuser`, `username`, `first_name`, `last_name`, `email`, `is_staff`, `is_active`, `date_joined`)
                 VALUES
                 (%s, NULL, 0, %s, %s, %s, %s, 0, 1, NOW())
-            """, (contraseña_encriptada, f"Empleado#{legajo}", self.nombre, self.apellido, f"{self.nombre.lower().replace(" ", "_")}@example.com"))
+            """, (contraseña_encriptada, f"Empleado#{legajo}", self.nombre, self.apellido, f"{self.nombre.lower().replace(' ', '_')}@example.com"))
             conn.commit()
         except Exception as e:
             print("Error al insertar Empleado:", e)
@@ -236,14 +237,14 @@ class Repuestos:
                 cursor.execute("DELETE FROM Repuesto WHERE nombre = %s", (nombre,))
                 conn.commit()
 
-    def actualizar_repuesto(nombre, precio_x_unidad, cantidad):
+    def actualizar_repuesto(nombre_v,nombre, precio_x_unidad, cantidad):
         with conectar_bd() as conn:
             with conn.cursor() as cursor:
                 cursor.execute("""
                     UPDATE Repuesto
-                    SET precio_x_unidad=%s, cantidad=%s
+                    SET nombre=%s, precio_x_unidad=%s, cantidad=%s
                     WHERE nombre=%s
-                """, (precio_x_unidad, cantidad, nombre))
+                """, (nombre, precio_x_unidad, cantidad, nombre_v))
                 conn.commit()
 
 class Usuarios:
@@ -365,14 +366,14 @@ class Vehiculos:
                 cursor.execute("DELETE FROM Vehiculo WHERE matricula = %s", (matricula,))
                 conn.commit()
 
-    def actualizar_Vehiculo(matricula, color, modelo):
+    def actualizar_Vehiculo(matricula_vieja, matricula, color, modelo):
         with conectar_bd() as conn:
             with conn.cursor() as cursor:
                 cursor.execute("""
                     UPDATE Vehiculo
-                    SET color=%s, modelo=%s
+                    SET matricula=%s, color=%s, modelo=%s
                     WHERE matricula=%s
-                """, (color, modelo, matricula))
+                """, (matricula, color, modelo, matricula_vieja))
                 conn.commit()
 
 class Presupuestos:
@@ -490,7 +491,8 @@ class FichaTecnica:
 
             detalles = presupuestos[1] 
 
-            empleados = [fila[2] for fila in detalles]
+            empleados = [fila[1] for fila in detalles]
+            print(empleados,"dsds")
             nroEmpleados = len(set(empleados))
             #arreglar esto
             subtotal = 0

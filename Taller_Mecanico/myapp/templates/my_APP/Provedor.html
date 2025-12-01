@@ -40,6 +40,8 @@
     <input type="hidden" id="modo" name="modo" value="agregar">
     <input type="hidden" id="cliente_id" name="cliente_id">
 
+    <input type="hidden" style="display:none;" name="dni_viejo">
+
     <button type="button" id="cancelar" onclick="cancelarFormulario()">Cancelar</button>
     <button type="submit" id="btnGuardar">Guardar</button>
 </form>
@@ -114,6 +116,7 @@ function editarCliente(id, dni, nombre, apellido, telefono, direccion) {
     mostrarFormulario('editar');
     document.getElementById('cliente_id').value = id;
 
+    document.querySelector('[name="dni_viejo"]').value = dni;
     document.querySelector('[name="dni"]').value = dni;
     document.querySelector('[name="nombre"]').value = nombre;
     document.querySelector('[name="apellido"]').value = apellido;

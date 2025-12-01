@@ -3,10 +3,10 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from pys.classes import Repuestos,Provedores, Empleados
 class FormularioPersona(forms.Form):
-  dni=forms.CharField(required=True)
+  dni=forms.IntegerField(required=True)
   nombre=forms.CharField(required=True)
   apellido=forms.CharField(required=True)
-  tel=forms.CharField(required=True)
+  tel=forms.IntegerField(required=True)
   dir=forms.CharField(required=True)
 
 class FormularioVehiculo(forms.Form):
@@ -16,17 +16,35 @@ class FormularioVehiculo(forms.Form):
 
 class FormularioRepuesto(forms.Form):
   print(Provedores.obtener_Provedor())
-  Provedor=forms.ChoiceField(choices= [(provedor[0],f"{provedor[2]} ({provedor[0]})") for provedor in Provedores.obtener_Provedor()], required=True)
+  Provedor = forms.ChoiceField(required=True)
   nombre=forms.CharField(required=True)
   precio_x_unidad=forms.IntegerField(required=True)
   cantidad=forms.IntegerField(required=True)
+  def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        provedores = Provedores.obtener_Provedor()
+        self.fields['Provedor'].choices = [
+            (provedor[0], f"{provedor[2]} ({provedor[0]})") for provedor in provedores
+        ]
 
 class FormularioReparacion(forms.Form):
-  repuesto=forms.ChoiceField(choices= [(repuesto[0],repuesto[0]) for repuesto in Repuestos.obtener_Repuesto()], required=True)
-  cantidad=forms.IntegerField(required=True)
-  legajo=forms.ChoiceField(choices= [(empleado[0],f"{empleado[2]} {empleado[3]} ({empleado[0]})") for empleado in Empleados.obtener_Empleado()], required=True)
-  precio=forms.IntegerField(required=True)
+    repuesto = forms.ChoiceField(required=True)
+    cantidad = forms.IntegerField(required=True)
+    legajo = forms.ChoiceField(required=True)
+    precio = forms.IntegerField(required=True)
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        repuestos = Repuestos.obtener_Repuesto()
+        self.fields['repuesto'].choices = [
+            (repuesto[0], repuesto[0]) for repuesto in repuestos
+        ]
+        empleados = Empleados.obtener_Empleado()
+        self.fields['legajo'].choices = [
+            (empledo[0], f"{empledo[2]} {empledo[3]} ({empledo[0]})") for empledo in empleados
+        ]
 
 class FormularioUsuarios(forms.Form):
   email=forms.CharField(required=True)

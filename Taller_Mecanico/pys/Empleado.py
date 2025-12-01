@@ -12,6 +12,7 @@ def Herramienta_Empleado(request):
         modo = request.POST.get("modo")
         if form.is_valid() and modo == "agregar":
             nuevo = Empleados(
+                
                 form.cleaned_data['dni'],
                 form.cleaned_data['nombre'],
                 form.cleaned_data['apellido'],
@@ -22,6 +23,7 @@ def Herramienta_Empleado(request):
         if modo == "editar" and form.is_valid():
         
             Persona.actualizar_Personas(
+                request.POST.get("dni_viejo"),
                 form.cleaned_data['dni'],
                 form.cleaned_data['nombre'],
                 form.cleaned_data['apellido'],

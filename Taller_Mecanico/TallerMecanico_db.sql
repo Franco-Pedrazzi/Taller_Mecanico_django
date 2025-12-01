@@ -55,7 +55,7 @@ CREATE TABLE `Vehiculo` (
   `color` varchar(10),
   `modelo` varchar(10),
   `dni_cliente` varchar(10) ,
-   FOREIGN KEY (dni_cliente) REFERENCES Persona(dni) ON DELETE CASCADE
+   FOREIGN KEY (dni_cliente) REFERENCES Persona(dni) ON DELETE CASCADE ON update cascade
 );
 
 
@@ -72,7 +72,7 @@ CREATE TABLE `Reparaciones` (
   `id` int auto_increment PRIMARY KEY,
   `fecha_entrada` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
   `matricula_vehiculo` varchar(25),
-  FOREIGN KEY (`matricula_vehiculo`) REFERENCES `Vehiculo` (`matricula`) ON DELETE CASCADE
+  FOREIGN KEY (`matricula_vehiculo`) REFERENCES `Vehiculo` (`matricula`) ON DELETE CASCADE ON update cascade
 );
 
 CREATE TABLE `detalle_Reparacion` (
@@ -83,7 +83,7 @@ CREATE TABLE `detalle_Reparacion` (
   `cantidad` int,
   `Precio` float,
   FOREIGN KEY (`legajo`) REFERENCES `Empleado` (`legajo`) ON DELETE CASCADE, 
-  FOREIGN KEY (`repuesto`) REFERENCES `Repuesto` (`nombre`) ON DELETE CASCADE,
+  FOREIGN KEY (`repuesto`) REFERENCES `Repuesto` (`nombre`) ON DELETE CASCADE ON update cascade,
   FOREIGN KEY (`reparacion_id`) REFERENCES `Reparaciones` (`id`) ON DELETE CASCADE
 );
 
@@ -94,7 +94,7 @@ CREATE TABLE `Ficha_Tecnica` (
   `subtotal`float,
   `mano_de_obra`float,
   `total`float,
-  FOREIGN KEY (`Vehiculo_Matricula`) REFERENCES `Vehiculo` (`matricula`) ON DELETE CASCADE
+  FOREIGN KEY (`Vehiculo_Matricula`) REFERENCES `Vehiculo` (`matricula`) ON DELETE CASCADE ON update cascade
 );
 CREATE TABLE `auth_user` (
   `id` int NOT NULL AUTO_INCREMENT,

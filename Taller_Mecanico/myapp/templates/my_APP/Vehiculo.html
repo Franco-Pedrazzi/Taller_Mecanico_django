@@ -40,6 +40,8 @@
     {{ form.as_p }}
     <input type="hidden" id="modo" name="modo" value="agregar">
     <input type="hidden" id="cliente_id" name="cliente_id">
+    
+    <input type="hidden" style="display:none;" name="matricula_vieja">
 
     <button type="button" id="cancelar" onclick="cancelarFormulario()">Cancelar</button>
     <button type="submit" id="btnGuardar">Guardar</button>
@@ -109,8 +111,8 @@ function cancelarFormulario() {
 
 function editarCliente(nombre, precio_x_unidad, cantidad) {
     mostrarFormulario('editar');
-    document.getElementById('cliente_id').value = nombre;
 
+    document.querySelector('[name="matricula_vieja"]').value = nombre;
     document.querySelector('[name="matricula"]').value = nombre;
     document.querySelector('[name="color"]').value = precio_x_unidad;
     document.querySelector('[name="modelo"]').value = cantidad;
